@@ -1,5 +1,8 @@
 #include <Adafruit_NeoPixel.h>
 #include <Servo.h>
+//speaker setup
+#include <SoftwareSerial.h>
+#include <DFRobotDFPlayerMini.h>
 
 int S = 10;
 
@@ -10,11 +13,24 @@ Servo servo3;
 Adafruit_NeoPixel leftEye(64, 2, NEO_GRB + NEO_KHZ800);
 Adafruit_NeoPixel rightEye(64, 3, NEO_GRB + NEO_KHZ800);
 
+// Setup DFPlayer with software serial on pins 12 and 13
+SoftwareSerial mySerial(12, 13); 
+DFRobotDFPlayerMini myDFPlayer;
+
+
 void setup() {
   leftEye.begin();
   leftEye.clear();
   rightEye.begin();
   rightEye.clear();
+
+  // Initialize DFPlayer
+  mySerial.begin(9600);
+  if (!myDFPlayer.begin(mySerial)) {
+    while (true); // Halt if DFPlayer fails
+  }
+  myDFPlayer.volume(20);  // Set default volume (0–30)
+
   servo1.attach(9);
   servo2.attach(10);
   servo3.attach(11);
@@ -153,6 +169,9 @@ void blink() {
 
 
 void heart() {
+  myDFPlayer.play(0003);  // Play heart sound
+  waitForMusicToEnd();
+
   int eye[8][8] = {
     {0, 0, 0, 0, 0, 0, 0, 0},
     {0, 0, 2, 2, 0, 2, 2, 0},
@@ -184,6 +203,9 @@ void heart() {
 }
 
 void happy() {
+  myDFPlayer.play(0001);  // Play happy sound
+  waitForMusicToEnd();
+  
   bigEyes(0);
   delay(5 * S);
   bigEyes(1);
@@ -209,8 +231,18 @@ void happy() {
 }
 
 void sad() {
+  myDFPlayer.play(0002);  // 😢 Play sad sound
+  waitForMusicToEnd();
+
   bigEyes(0);
   servo2.write(0);
   delay(300 * S);
   servo2.write(180);
+}
+
+// Wait for current music to finish before continuing
+void waitForMusicToEnd() {
+  while (myDFPlayer.isPlaying()) {
+    delay(100);
+  }
 }
