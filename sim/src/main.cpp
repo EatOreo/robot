@@ -18,7 +18,7 @@ unsigned long lastMillis = 0;
 unsigned long lastBlink = 0;
 unsigned long iv = 50;
 unsigned long frame = 0;
-int state = HAPPY; 
+int state = CURIOUS; 
 
 void loop() {
     bool buttonState = digitalRead(13);
@@ -49,7 +49,7 @@ void loop() {
             case LOVE:
                 draw(HEART_OUT);
                 if (frame % 2 == 0) draw(HEART_IN, false, 0xff69b4);
-				iv = (frame % 2 == 0) ? 30 : 10;
+				iv = frame % 2 == 0 ? 30 : 10;
                 break;
             case SILLY:
                 draw(CIRCLE[frame % 8], true);
@@ -74,4 +74,3 @@ void loop() {
         frame++;
     }
 }
-
