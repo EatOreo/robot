@@ -1,0 +1,43 @@
+{
+  "version": 1,
+  "author": "Anonymous maker",
+  "editor": "wokwi",
+  "parts": [
+    { "type": "wokwi-arduino-uno", "id": "uno", "top": 0.6, "left": 9, "attrs": {} },
+    {
+      "type": "wokwi-neopixel-matrix",
+      "id": "rgb1",
+      "top": -191.04,
+      "left": 288.1,
+      "attrs": { "rows": "8", "cols": "8", "pin": "3" }
+    },
+    {
+      "type": "wokwi-neopixel-matrix",
+      "id": "rgb2",
+      "top": -191.04,
+      "left": 518.5,
+      "attrs": { "rows": "8", "cols": "8", "pin": "3" }
+    },
+    { "type": "wokwi-servo", "id": "servo1", "top": 7.6, "left": 412.8, "attrs": {} },
+    { "type": "wokwi-servo", "id": "servo2", "top": -328.4, "left": 259.2, "attrs": {} },
+    { "type": "wokwi-servo", "id": "servo3", "top": -328.4, "left": 556.8, "attrs": {} }
+  ],
+  "connections": [
+    [ "uno:2", "rgb1:DIN", "green", [ "v0" ] ],
+    [ "uno:3", "rgb2:DIN", "green", [ "v0" ] ],
+    [ "uno:GND.2", "rgb1:GND", "black", [ "v19.1", "h109.5", "v-220.8" ] ],
+    [ "rgb2:GND", "uno:GND.2", "black", [ "v0", "h-316.8", "v220.8", "h-105.6" ] ],
+    [ "uno:5V", "rgb1:VCC", "red", [ "v19.1", "h119", "v-220.8" ] ],
+    [ "uno:5V", "rgb2:VCC", "red", [ "v19.1", "h119", "v-220.8" ] ],
+    [ "uno:5V", "servo1:V+", "red", [ "v19.1", "h119", "v-144" ] ],
+    [ "uno:GND.2", "servo1:GND", "black", [ "v19.1", "h109.5", "v-144" ] ],
+    [ "uno:10", "servo1:PWM", "green", [ "v-19.2", "h202.3" ] ],
+    [ "uno:9", "servo2:PWM", "green", [ "v0" ] ],
+    [ "uno:5V", "servo2:V+", "red", [ "v19.1", "h-169", "v-460.8" ] ],
+    [ "uno:GND.1", "servo2:GND", "black", [ "v0" ] ],
+    [ "uno:11", "servo3:PWM", "green", [ "v-211.2", "h442.2" ] ],
+    [ "uno:5V", "servo3:V+", "red", [ "v19.1", "h-169", "v-412.8", "h595.2" ] ],
+    [ "uno:GND.1", "servo3:GND", "black", [ "v-211.2", "h9.9" ] ]
+  ],
+  "dependencies": {}
+}
