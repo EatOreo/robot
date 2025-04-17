@@ -4,7 +4,7 @@ const uint64_t HEART_OUT = 0x1824428181819966;
 const uint64_t HEART_IN = 0x00183c7e7e7e6600;
 const uint64_t CRY = 0x0000000000ff8100;
 const uint64_t MEAN = 0x007e3e1e0e060200;
-const uint64_t MEAN_OUT = 0xff81412111090503;
+const uint64_t MEAN_BROW = 0x0080402010080402;
 const uint64_t SMILE = 0x0042424242423c00;
 const uint64_t CLOSED = 0x0000003c00000000;
 const uint64_t TEARS[] = {
@@ -47,7 +47,7 @@ unsigned long frame = 0;
 unsigned long lastEyeMillis = 0;
 unsigned long eIV = 50;
 
-void eyeLoop(int state, unsigned long currentMillis, int speed) {
+void eyeLoop(unsigned int state, unsigned long currentMillis, unsigned int speed) {
 	if (currentMillis - lastEyeMillis >= eIV * speed) {
 		lastEyeMillis = currentMillis;
 
@@ -73,7 +73,7 @@ void eyeLoop(int state, unsigned long currentMillis, int speed) {
 				eIV = 10;
 				break;
 			case ANGRY:
-				draw(MEAN_OUT, true);
+				draw(MEAN_BROW, true);
 				draw(MEAN, true, 0xff0000);
 				eIV = 100;
 				break;
