@@ -1,6 +1,3 @@
-Adafruit_NeoPixel lEye(64, 2, NEO_GRB + NEO_KHZ800);
-Adafruit_NeoPixel rEye(64, 3, NEO_GRB + NEO_KHZ800);
-
 //https://xantorohara.github.io/led-matrix-editor/
 const uint64_t CORNERS = 0x0042000000004200;
 const uint64_t HEART_OUT = 0x1824428181819966;
@@ -45,11 +42,54 @@ void draw(const uint64_t frame, bool mirror = false, uint32_t color = 0x00ff00) 
 		}
 	}
 }
-void clear() {
-	lEye.clear();
-	rEye.clear();
-}
-void show() {
-	lEye.show();
-	rEye.show();
+
+unsigned long frame = 0;
+unsigned long lastEyeMillis = 0;
+unsigned long eIV = 50;
+
+void eyeLoop(int state, unsigned long currentMillis, int speed) {
+	if (currentMillis - lastEyeMillis >= eIV * speed) {
+		lastEyeMillis = currentMillis;
+
+		lEye.clear();
+		rEye.clear();
+
+		switch (state) {
+			case CURIOUS:
+				draw(LOOK[frame % 4]);
+				eIV = 50;
+				break;
+			case LOVE:
+				draw(HEART_OUT);
+				if (frame % 2 == 0) draw(HEART_IN, false, 0xff69b4);
+				eIV = frame % 2 == 0 ? 30 : 10;
+				break;
+			case HAPPY:
+				draw(SMILE, true);
+				eIV = 100;
+				break;
+			case SILLY:
+				draw(CIRCLE[frame % 8], true);
+				eIV = 10;
+				break;
+			case ANGRY:
+				draw(MEAN_OUT, true);
+				draw(MEAN, true, 0xff0000);
+				eIV = 100;
+				break;
+			case SAD:
+				draw(CRY);
+				draw(TEARS[frame % 8], true, 0x0088ff);
+				eIV = 20;
+				break;
+			case SLEEP:
+				draw(CLOSED);
+				eIV = 100;
+				break;
+		}
+
+		lEye.show();
+		rEye.show();
+		frame++;
+    }
 }
