@@ -5,7 +5,11 @@ Adafruit_NeoPixel rEye(64, 3, NEO_GRB + NEO_KHZ800);
 const uint64_t CORNERS = 0x0042000000004200;
 const uint64_t HEART_OUT = 0x1824428181819966;
 const uint64_t HEART_IN = 0x00183c7e7e7e6600;
-const uint64_t CLOSE = 0x0000000000ff8100;
+const uint64_t CRY = 0x0000000000ff8100;
+const uint64_t MEAN = 0x007e3e1e0e060200;
+const uint64_t MEAN_OUT = 0xff81412111090503;
+const uint64_t SMILE = 0x0042424242423c00;
+const uint64_t CLOSED = 0x0000003c00000000;
 const uint64_t TEARS[] = {
 	0x0020202060000000,
 	0x2020206060000000,
@@ -33,7 +37,7 @@ const uint64_t CIRCLE[] = {
 	0x007e7e72727e7e00
 };
 
-void draw(const uint64_t frame, uint32_t color, bool mirror = false) {
+void draw(const uint64_t frame, bool mirror = false, uint32_t color = 0x00ff00) {
 	for (int i = 0; i < 64; i++) {
 		if ((frame >> i) & 1) {
 			lEye.setPixelColor(i, color);

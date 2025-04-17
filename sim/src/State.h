@@ -1,6 +1,9 @@
 enum State {
     CURIOUS,
-    CRY,
+    SAD,
     LOVE,
     SILLY,
+    ANGRY,
+    HAPPY,
+    SLEEP
 };
