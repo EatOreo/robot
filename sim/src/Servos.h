@@ -1,5 +1,12 @@
-bool approach(Servo servo, int goal, int step) {
-    int current = servo.read();
+const int ANGLE_MULTIPLIER = 18;
+
+void write(Servo servo, unsigned int pos) {
+    servo.write(min(pos, 10) * ANGLE_MULTIPLIER);
+}
+
+bool approach(Servo servo, unsigned int goal, unsigned int step = 2) {
+    goal = min(goal, 10) * ANGLE_MULTIPLIER;
+    unsigned int current = servo.read();
     if (current == goal) return true;
     if (current < goal) {
         current += step;
@@ -22,15 +29,15 @@ void resetServos() {
 unsigned long lastServoMillis = 0;
 
 void servoLoop(unsigned int state, unsigned long currentMillis, unsigned int speed) {
-    if (currentMillis - lastServoMillis >= 10 * speed) {
+    if (currentMillis - lastServoMillis >= 5 * speed) {
         lastServoMillis = currentMillis;
 
         switch (state) {
             case CURIOUS:
-                lSer.write(0);
-                fSer.write(90);
-                rSer.write(180);
-                approach(neckSer, 50, 5);
+                write(lSer, 0);
+                write(fSer, 5);
+                write(rSer, 10);
+                approach(neckSer, 8);
                 break;
             case LOVE:
                 break;
@@ -41,11 +48,13 @@ void servoLoop(unsigned int state, unsigned long currentMillis, unsigned int spe
             case ANGRY:
                 break;
             case SAD:
-                lSer.write(0);
-                rSer.write(0);
-                fSer.write(180);
+                resetServos();
+                write(fSer, 10);
                 break;
             case SLEEP:
+                break;
+            default:
+                resetServos();
                 break;
         }
     }

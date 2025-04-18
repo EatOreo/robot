@@ -86,6 +86,10 @@ void eyeLoop(unsigned int state, unsigned long currentMillis, unsigned int speed
 				draw(CLOSED);
 				eIV = 100;
 				break;
+			default:
+				draw(CLOSED);
+				eIV = 100;
+				break;
 		}
 
 		lEye.show();
