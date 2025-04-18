@@ -9,7 +9,7 @@ Servo lSer;
 Servo fSer;
 Servo rSer;
 Servo neckSer;
-#include <Servos.h>
+#include <Head.h>
 
 const unsigned int S = 10;
 static unsigned int State = CURIOUS; 
@@ -24,7 +24,7 @@ void setup() {
     fSer.attach(10);
     rSer.attach(11);
     neckSer.attach(3);
-    resetServos();
+    resetHead();
 }
 
 bool lastButtonState = HIGH;

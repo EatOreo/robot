@@ -19,17 +19,26 @@ bool approach(Servo servo, unsigned int goal, unsigned int step = 2) {
     return current == goal;
 }
 
-void resetServos() {
-    lSer.write(0);
-    fSer.write(0);
-    rSer.write(0);
+void resetNeck() {
     neckSer.write(90);
 }
 
+void rotateNeck(unsigned int pos) {
+    //TODO
+}
+
+void resetHead(bool alsoResetNeck = true) {
+    write(lSer, 0);
+    write(fSer, 0);
+    write(rSer, 0);
+    if (alsoResetNeck) resetNeck();
+}
+
 unsigned long lastServoMillis = 0;
+unsigned int sIV = 5;
 
 void servoLoop(unsigned int state, unsigned long currentMillis, unsigned int speed) {
-    if (currentMillis - lastServoMillis >= 5 * speed) {
+    if (currentMillis - lastServoMillis >= sIV * speed) {
         lastServoMillis = currentMillis;
 
         switch (state) {
@@ -37,9 +46,10 @@ void servoLoop(unsigned int state, unsigned long currentMillis, unsigned int spe
                 write(lSer, 0);
                 write(fSer, 5);
                 write(rSer, 10);
-                approach(neckSer, 8);
+                approach(neckSer, 8); //TODO: replace with rotateNeck()
                 break;
             case LOVE:
+                approach(neckSer, 5); //TODO: replace with rotateNeck()
                 break;
             case HAPPY:
                 break;
@@ -48,13 +58,12 @@ void servoLoop(unsigned int state, unsigned long currentMillis, unsigned int spe
             case ANGRY:
                 break;
             case SAD:
-                resetServos();
-                write(fSer, 10);
+                resetHead();
                 break;
             case SLEEP:
                 break;
             default:
-                resetServos();
+                resetHead();
                 break;
         }
     }
