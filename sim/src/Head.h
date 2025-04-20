@@ -35,13 +35,13 @@ bool moveHead(unsigned int l, unsigned int f, unsigned int r, unsigned int step 
     return leftReached && frontReached && rightReached;
 }
 
-unsigned long lastServoMillis = 0;
+unsigned long lastHeadMillis = 0;
 unsigned int sIV = 8;
 unsigned int iter = 0;
 
 void servoLoop(unsigned int state, unsigned long currentMillis, unsigned int speed) {
-    if (currentMillis - lastServoMillis >= sIV * speed) {
-        lastServoMillis = currentMillis;
+    if (currentMillis - lastHeadMillis >= sIV * speed) {
+        lastHeadMillis = currentMillis;
         bool even = iter % 2 == 0;
 
         switch (state) {

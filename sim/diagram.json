@@ -44,7 +44,7 @@
     [ "uno:5V", "servo2:V+", "red", [ "v19.1", "h-169", "v-460.8" ] ],
     [ "uno:GND.1", "servo2:GND", "black", [ "v0" ] ],
     [ "uno:GND.1", "btn1:2.l", "black", [ "v0" ] ],
-    [ "uno:13", "btn1:1.l", "green", [ "v0" ] ],
+    [ "uno:2", "btn1:1.l", "green", [ "v0" ] ],
     [ "uno:11", "servo3:PWM", "green", [ "v-355.2", "h403.8" ] ],
     [ "servo1:PWM", "uno:10", "green", [ "h-124.8", "v-86.2", "h-124.8" ] ],
     [ "rgb1:VCC", "servo1:V+", "red", [ "v0" ] ],
