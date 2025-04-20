@@ -52,5 +52,5 @@ void loop() {
     unsigned long currentMillis = millis();
     eyeLoop(State, currentMillis, S);
     servoLoop(State, currentMillis, S);
-    if (audioConnected) (State, currentMillis);
+    if (audioConnected) audioLoop(State, currentMillis);
 }
