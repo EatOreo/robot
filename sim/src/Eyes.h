@@ -54,6 +54,8 @@ void eyeLoop(unsigned int state, unsigned long currentMillis, unsigned int speed
 		lEye.clear();
 		rEye.clear();
 
+		// TODO: blink like this: https://www.youtube.com/watch?v=bGIOFGOlB68
+		// more inspiration: https://www.adrirobot.it/occhi-per-robot-con-matrice-8x8-max7219/
 		switch (state) {
 			case CURIOUS:
 				draw(LOOK[frame % 4]);

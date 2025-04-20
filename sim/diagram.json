@@ -31,9 +31,10 @@
     {
       "type": "wokwi-servo",
       "id": "servo4",
-      "top": 142,
-      "left": 412.8,
-      "attrs": { "horn": "double", "hornColor": "black" }
+      "top": 169,
+      "left": 423.4,
+      "rotate": 90,
+      "attrs": { "hornColor": "black" }
     }
   ],
   "connections": [
@@ -50,11 +51,11 @@
     [ "rgb1:GND", "servo1:GND", "black", [ "v0" ] ],
     [ "rgb1:VCC", "rgb2:VCC", "red", [ "v0" ] ],
     [ "rgb1:GND", "rgb2:GND", "black", [ "v0" ] ],
-    [ "servo4:GND", "servo1:GND", "black", [ "h0" ] ],
-    [ "servo1:V+", "servo4:V+", "red", [ "h0" ] ],
     [ "uno:5", "rgb1:DIN", "green", [ "v0" ] ],
     [ "uno:6", "rgb2:DIN", "green", [ "v0" ] ],
-    [ "servo4:PWM", "uno:3", "green", [ "h-124.8", "v-191.8", "h-48" ] ]
+    [ "uno:3", "servo4:PWM", "green", [ "v-19.2", "h52", "v144" ] ],
+    [ "servo1:V+", "servo4:V+", "red", [ "h0", "v76.9" ] ],
+    [ "servo4:GND", "servo1:GND", "black", [ "v0", "h-105.6" ] ]
   ],
   "dependencies": {}
 }

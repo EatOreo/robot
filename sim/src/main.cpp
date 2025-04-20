@@ -12,7 +12,7 @@ Servo neckSer;
 #include <Head.h>
 
 const unsigned int S = 10;
-static unsigned int State = CURIOUS; 
+static unsigned int State = ANGRY; 
 
 void setup() {
     Serial.begin(9600);
