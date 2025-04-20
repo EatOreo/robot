@@ -18,9 +18,11 @@ DFRobotDFPlayerMini dfpPlayer;
 
 const unsigned int S = 10;
 static unsigned int State = CURIOUS; 
+bool audioConnected = false;
 
 void setup() {
-    Serial.begin(9600);
+    softSerial.begin(9600);
+    Serial.begin(115200);
     pinMode(2, INPUT_PULLUP);
 
     lEye.begin();
@@ -30,7 +32,15 @@ void setup() {
     rSer.attach(11);
     neckSer.attach(3);
     resetHead();
-    dfpPlayer.volume(30); //0 to 30
+    if (!dfpPlayer.begin(softSerial)) {
+        Serial.println(F("Unable to begin:"));
+        Serial.println(F("1.Please recheck the connection!"));
+        Serial.println(F("2.Please insert the SD card!"));
+    }
+    else {
+        audioConnected = true;
+        dfpPlayer.volume(30);
+    }
 }
 
 bool lastButtonState = HIGH;
@@ -44,5 +54,5 @@ void loop() {
     unsigned long currentMillis = millis();
     eyeLoop(State, currentMillis, S);
     servoLoop(State, currentMillis, S);
-    audioLoop(State, currentMillis);
+    if (audioConnected) (State, currentMillis);
 }

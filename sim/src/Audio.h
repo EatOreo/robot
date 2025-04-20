@@ -7,20 +7,23 @@ void audioLoop(int state, unsigned long currentMillis) {
             case CURIOUS:
                 dfpPlayer.play(1);
                 break;
-            case HAPPY:
+            case LOVE:
                 dfpPlayer.play(2);
                 break;
-            case SAD:
+            case HAPPY:
                 dfpPlayer.play(3);
                 break;
-            case ANGRY:
-                dfpPlayer.play(4);
-                break;
-            case SCARED:
+            case SILLY:
                 dfpPlayer.play(5);
                 break;
-            case CONFUSED:
+            case ANGRY:
                 dfpPlayer.play(6);
+                break;
+            case SAD:
+                dfpPlayer.play(7);
+                break;
+            case SLEEP:
+                dfpPlayer.play(8);
                 break;
             default:
                 break;
