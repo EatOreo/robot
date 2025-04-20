@@ -33,9 +33,7 @@ void setup() {
     neckSer.attach(3);
     resetHead();
     if (!dfpPlayer.begin(softSerial)) {
-        Serial.println(F("Unable to begin:"));
-        Serial.println(F("1.Please recheck the connection!"));
-        Serial.println(F("2.Please insert the SD card!"));
+        Serial.println(F("Unable to use audio player"));
     }
     else {
         audioConnected = true;
