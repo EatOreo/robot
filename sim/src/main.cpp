@@ -12,7 +12,7 @@ Servo fSer;
 Servo rSer;
 Servo neckSer;
 #include <Head.h>
-SoftwareSerial softSerial(/*rx =*/12, /*tx =*/13);
+SoftwareSerial softSerial(12, 13);
 DFRobotDFPlayerMini dfpPlayer;
 #include <Audio.h>
 
