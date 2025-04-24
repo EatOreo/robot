@@ -4,4 +4,4 @@ This is a simple way our modules could communicate using the I2C protocol. So ou
 
 ## To use
 
-Add the CommClient.h header to the top of your arduino program and call `setupCommClient()` in your `setup()` using the predefined address for your module. Also implement a function, taking a bool as argument for when the communication module tells your module to start. See example in main.cpp in this folder!!
+Add the CommClient.h header to the top of your arduino program and call `setupCommClient()` in your `setup()` using the predefined address for your module. Also implement a function, taking a bool as argument for when the communication module tells your module to start. When you wish to change the state of the communication call `requestCommState()`, the different possible states can be seen in the top of the header file. See example in main.cpp in this folder!!
