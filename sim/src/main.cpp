@@ -18,7 +18,7 @@ DFRobotDFPlayerMini dfpPlayer;
 #include <CommServer.h>
 
 const unsigned int S = 10;
-static uint8_t State = CURIOUS; 
+static uint8_t State = IDLE; 
 bool audioConnected = false;
 
 void setup() {
@@ -47,7 +47,7 @@ bool lastButtonState = HIGH;
 
 void loop() {
     bool buttonState = digitalRead(2);
-    if (buttonState == LOW && lastButtonState == HIGH) State = (State % 7) + 1;
+    if (buttonState == LOW && lastButtonState == HIGH) State = (State % 8) + 1;
     lastButtonState = buttonState;
     delay(10);
 
