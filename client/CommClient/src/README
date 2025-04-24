@@ -1,0 +1,7 @@
+# Communicate with the communication module
+
+This is a simple way our modules could communicate using the I2C protocol. So our arduinos only need to be connected with two wires: https://docs.arduino.cc/learn/communication/wire/. With this code the communication arduino will acts as server ("master") which contiuesly polls the other modules for updates (which I realize may not be preferred). Using delay() in the clients may interfere with this. The header file is not very tested so we can not ensure that it doesn't introduce bugs. Also here we only make very simple messages possible and only messages about what the state of the communication module should be, but this is only a proof of concept.
+
+## To use
+
+Add the CommClient.h header to the top of your arduino program and call `setupCommClient()` in your `setup()` using the predefined address for your module. Also implement a function, taking a bool as argument for when the communication module tells your module to start. See example in main.cpp in this folder!!

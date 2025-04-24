@@ -1,5 +1,5 @@
 #include <Arduino.h>
-#include <CommClient.h>
+#include <CommClient.h> // Include this
 
 void onStart(bool start) { // Event when the communication module requests to start
 	if (start) Serial.println("Communication module requested start");

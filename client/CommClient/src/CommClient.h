@@ -11,10 +11,10 @@ enum CommunicationModuleState {
     SLEEP
 };
 
-uint8_t MODULE_ACTUATOR_1 = 0x08;
-uint8_t MODULE_ACTUATOR_2 = 0x09;
-uint8_t MODULE_MOVEMENT = 0x0A;
-uint8_t MODULE_POWER = 0x0B;
+const uint8_t MODULE_ACTUATOR_1 = 0x08;
+const uint8_t MODULE_ACTUATOR_2 = 0x09;
+const uint8_t MODULE_MOVEMENT = 0x0A;
+const uint8_t MODULE_POWER = 0x0B;
 
 uint8_t CommState = NONE;
 
