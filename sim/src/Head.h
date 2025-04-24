@@ -39,7 +39,7 @@ unsigned long lastHeadMillis = 0;
 unsigned int sIV = 8;
 unsigned int iter = 0;
 
-void servoLoop(unsigned int state, unsigned long currentMillis, unsigned int speed) {
+void servoLoop(uint8_t state, unsigned long currentMillis, unsigned int speed) {
     if (currentMillis - lastHeadMillis >= sIV * speed) {
         lastHeadMillis = currentMillis;
         bool even = iter % 2 == 0;

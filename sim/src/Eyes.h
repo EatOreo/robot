@@ -47,7 +47,7 @@ unsigned long frame = 0;
 unsigned long lastEyeMillis = 0;
 unsigned long eIV = 50;
 
-void eyeLoop(unsigned int state, unsigned long currentMillis, unsigned int speed) {
+void eyeLoop(uint8_t state, unsigned long currentMillis, unsigned int speed) {
 	if (currentMillis - lastEyeMillis >= eIV * speed) {
 		lastEyeMillis = currentMillis;
 
@@ -67,7 +67,7 @@ void eyeLoop(unsigned int state, unsigned long currentMillis, unsigned int speed
 				eIV = frame % 2 == 0 ? 30 : 10;
 				break;
 			case HAPPY:
-				draw(SMILE, true);
+				draw(SMILE);
 				eIV = 100;
 				break;
 			case SILLY:

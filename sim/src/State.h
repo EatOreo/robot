@@ -1,4 +1,5 @@
 enum State {
+    NONE,
     CURIOUS,
     LOVE,
     HAPPY,

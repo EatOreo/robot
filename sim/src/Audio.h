@@ -1,5 +1,5 @@
 unsigned long lastAudioMillis = 0;
-void audioLoop(int state, unsigned long currentMillis) {
+void audioLoop(uint8_t state, unsigned long currentMillis) {
     if (currentMillis - lastAudioMillis >= 2000) { // audio is 2 seconds long
         lastAudioMillis = currentMillis;
 
