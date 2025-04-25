@@ -53,7 +53,7 @@ void draw(const uint64_t frame, bool mirror = false, uint32_t color = 0x00ff00) 
 unsigned long frame = 0;
 unsigned long lastEyeMillis = 0;
 unsigned long eIV = 50;
-int blinkFrame = 0;
+int blinkFrame = -1;
 
 void eyeLoop(uint8_t state, unsigned long currentMillis, unsigned int speed) {
 	if (currentMillis - lastEyeMillis >= eIV * speed) {
@@ -64,11 +64,11 @@ void eyeLoop(uint8_t state, unsigned long currentMillis, unsigned int speed) {
 
 		// TODO: blink like this: https://www.youtube.com/watch?v=bGIOFGOlB68
 		// more inspiration: https://www.adrirobot.it/occhi-per-robot-con-matrice-8x8-max7219/
-		if (blinkFrame > 0) {
-			draw(BLINK[blinkFrame - 1]);
-			if (blinkFrame == 4) eIV = 20;
-			else eIV = 5;
-			blinkFrame = (blinkFrame + 1) % 6;
+		if (blinkFrame >= 0 && blinkFrame < 5) {
+			draw(BLINK[blinkFrame]);
+			eIV = (blinkFrame == 3) ? 20 : 7;
+			blinkFrame++;
+			if (blinkFrame >= 5) blinkFrame = -1;
 		}
 		else switch (state) {
 			case IDLE:
@@ -81,7 +81,7 @@ void eyeLoop(uint8_t state, unsigned long currentMillis, unsigned int speed) {
 				}
 				if (random(0, 8) == 0)
 				{
-					blinkFrame = 1;
+					blinkFrame = 0;
 					eIV = 5;
 				}
 				break;
