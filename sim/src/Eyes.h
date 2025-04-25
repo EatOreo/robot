@@ -55,6 +55,13 @@ unsigned long lastEyeMillis = 0;
 unsigned long eIV = 50;
 int blinkFrame = -1;
 
+void blinkWithProb(int prob) {
+	if (random(0, prob) == 0) {
+		blinkFrame = 0;
+		eIV = 5;
+	}
+}
+
 void eyeLoop(uint8_t state, unsigned long currentMillis, unsigned int speed) {
 	if (currentMillis - lastEyeMillis >= eIV * speed) {
 		lastEyeMillis = currentMillis;
@@ -74,20 +81,17 @@ void eyeLoop(uint8_t state, unsigned long currentMillis, unsigned int speed) {
 			case IDLE:
 				if (frame % 2 == 0) {
 					draw(LOOK[0]);
-					eIV = 40 + pow(random(0, 1000), 0.5) * 10; // Skewed random interval
+					eIV = 40 + pow(random(0, 1000), 0.5) * 10;
 				} else {
 					draw(CIRCLE[random(0, 8)]);
-					eIV = 20 + pow(random(0, 100), 2) / 80; // Skewed random interval
+					eIV = 20 + pow(random(0, 100), 2) / 80;
 				}
-				if (random(0, 8) == 0)
-				{
-					blinkFrame = 0;
-					eIV = 5;
-				}
+				blinkWithProb(16);
 				break;
 			case CURIOUS:
 				draw(LOOK[frame % 4]);
 				eIV = 50;
+				blinkWithProb(10);
 				break;
 			case LOVE:
 				draw(HEART_OUT);
@@ -97,6 +101,7 @@ void eyeLoop(uint8_t state, unsigned long currentMillis, unsigned int speed) {
 			case HAPPY:
 				draw(SMILE);
 				eIV = 100;
+				blinkWithProb(10);
 				break;
 			case SILLY:
 				draw(CIRCLE[frame % 8], true);
