@@ -4,8 +4,7 @@
 #include <SoftwareSerial.h>
 #include <DFRobotDFPlayerMini.h>
 #include <State.h>
-Adafruit_NeoPixel lEye(64, 5, NEO_GRB + NEO_KHZ800);
-Adafruit_NeoPixel rEye(64, 6, NEO_GRB + NEO_KHZ800);
+Adafruit_NeoPixel eyes(128, 5, NEO_GRB + NEO_KHZ800);
 #include <Eyes.h>
 Servo lSer;
 Servo fSer;
@@ -26,8 +25,7 @@ void setup() {
     Serial.begin(115200);
     pinMode(2, INPUT_PULLUP);
 
-    lEye.begin();
-    rEye.begin();
+    eyes.begin();
     lSer.attach(9);
     fSer.attach(10);
     rSer.attach(11);

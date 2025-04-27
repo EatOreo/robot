@@ -52,10 +52,10 @@
     [ "rgb1:VCC", "rgb2:VCC", "red", [ "v0" ] ],
     [ "rgb1:GND", "rgb2:GND", "black", [ "v0" ] ],
     [ "uno:5", "rgb1:DIN", "green", [ "v0" ] ],
-    [ "uno:6", "rgb2:DIN", "green", [ "v0" ] ],
     [ "uno:3", "servo4:PWM", "green", [ "v-19.2", "h52", "v144" ] ],
     [ "servo1:V+", "servo4:V+", "red", [ "h0", "v76.9" ] ],
-    [ "servo4:GND", "servo1:GND", "black", [ "v0", "h-105.6" ] ]
+    [ "servo4:GND", "servo1:GND", "black", [ "v0", "h-105.6" ] ],
+    [ "rgb1:DOUT", "rgb2:DIN", "green", [ "v0" ] ]
   ],
   "dependencies": {}
 }

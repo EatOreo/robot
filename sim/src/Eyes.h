@@ -44,8 +44,8 @@ const uint64_t CIRCLE[] = {
 void draw(const uint64_t frame, bool mirror = false, uint32_t color = 0x00ff00) {
 	for (int i = 0; i < 64; i++) {
 		if ((frame >> i) & 1) {
-			lEye.setPixelColor(i, color);
-			rEye.setPixelColor(mirror ? (7 - (i % 8)) + (i / 8) * 8 : i, color);
+			eyes.setPixelColor(i, color);
+			eyes.setPixelColor((mirror ? (7 - (i % 8)) + (i / 8) * 8 : i) + 64, color);
 		}
 	}
 }
@@ -66,8 +66,7 @@ void eyeLoop(uint8_t state, unsigned long currentMillis, unsigned int speed) {
 	if (currentMillis - lastEyeMillis >= eIV * speed) {
 		lastEyeMillis = currentMillis;
 
-		lEye.clear();
-		rEye.clear();
+		eyes.clear();
 
 		// TODO: blink like this: https://www.youtube.com/watch?v=bGIOFGOlB68
 		// more inspiration: https://www.adrirobot.it/occhi-per-robot-con-matrice-8x8-max7219/
@@ -127,8 +126,7 @@ void eyeLoop(uint8_t state, unsigned long currentMillis, unsigned int speed) {
 				break;
 		}
 
-		lEye.show();
-		rEye.show();
+		eyes.show();
 		frame++;
     }
 }
