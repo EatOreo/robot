@@ -1,5 +1,8 @@
 #include <Adafruit_NeoPixel.h>
 #include <Servo.h>
+#include <SoftwareSerial.h>
+#include <DFRobotDFPlayerMini.h>
+
 
 int S = 10;
 
@@ -11,15 +14,29 @@ Servo neck;
 Adafruit_NeoPixel leftEye(64, 2, NEO_GRB + NEO_KHZ800);
 Adafruit_NeoPixel rightEye(64, 3, NEO_GRB + NEO_KHZ800);
 
+SoftwareSerial mySerial(12, 13); // RX, TX
+DFRobotDFPlayerMini myDFPlayer;
+
+
 void setup() {
   leftEye.begin();
   leftEye.clear();
+  leftEye.setBrightness(15);  // Set brightness
   rightEye.begin();
   rightEye.clear();
+  rightEye.setBrightness(30);
+
+  // Initialize DFPlayer
+  mySerial.begin(9600);
+  if (!myDFPlayer.begin(mySerial)) {
+    while (true); // Halt if DFPlayer fails
+  }
+  myDFPlayer.volume(20);  // Set default volume (0–30)
+
   servo1.attach(9);
   servo2.attach(10);
   servo3.attach(11);
-  neck.attach(12);
+  neck.attach(7);
   servo1.write(180);
   servo2.write(180);
   servo3.write(180);
@@ -28,7 +45,7 @@ void setup() {
 
 void loop() {
   look_around();
-  happy();
+  //happy();
   for (int i = 0; i < 5; i++)
   {
     heart_eyes();
@@ -158,6 +175,7 @@ void blink() {
 
 
 void heart_eyes() {
+
   int eye[8][8] = {
     {0,2,2,0,0,2,2,0},
     {2,1,1,2,2,1,1,2},
@@ -211,6 +229,7 @@ void looking_eyes() {
 
 
 void happy_eyes() {
+
   int eye[8][8] = {
     {0,0,0,0,0,0,0,0},
     {0,0,1,1,1,1,0,0},
@@ -258,6 +277,9 @@ void angry_eyes() {
 }
 
 void happy() {
+  myDFPlayer.play(0007);
+  waitForMusicToEnd();
+
   bigEyes(0);
   delay(50 * S);
   bigEyes(1);
@@ -285,16 +307,23 @@ void happy() {
 }
 
 void sad() {
+  myDFPlayer.play(0004); 
+  waitForMusicToEnd();
+
   bigEyes(3);
   servo2.write(0);
   delay(300 * S);
-  servo2.write(180);
+  servo2.write(179);
+  delay(3000);
 }
 
 void look_around() {
-  servo1.write(180);
-  servo2.write(180);
-  servo3.write(180);
+  myDFPlayer.play(0007); 
+  waitForMusicToEnd();
+
+  servo1.write(179);
+  servo2.write(179);
+  servo3.write(179);
   looking_eyes();
   neck.write(30);
   delay(150 * S);
@@ -313,12 +342,14 @@ void look_around() {
 
 void angry() {
   angry_eyes();
+  servo2.write(0);
   for (int i = 0; i < 5; i++) {
     servo2.write(40);
     delay(20 * S);
     servo2.write(0);
     delay(20 * S);
   }
+  servo2.write(179);
 }
 
 uint8_t HEART_OUTSIDE[8] = {
@@ -353,3 +384,8 @@ uint8_t LOOKING_LEFT[8] = {
   0b00000110,
   0b00000110,
 };
+
+// Wait for current music to finish before continuing
+void waitForMusicToEnd() {
+  delay(3000);
+}
