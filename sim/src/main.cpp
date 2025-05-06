@@ -86,7 +86,6 @@ void loop() {
         audioLoop(State, currentMillis);
         lastAudioState = State;
     }
-    commServerLoop(currentMillis); //30s no interaction -> idle mode
     if (millis() - lastInteractionTime > 30000 && State != IDLE) {
         State = IDLE;
     }

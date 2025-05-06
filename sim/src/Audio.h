@@ -1,7 +1,7 @@
 unsigned long lastAudioMillis = 0;
-void audioLoop(uint8_t state) {
-    //if (currentMillis - lastAudioMillis >= 5000) { // audio is 20 seconds long
-        //lastAudioMillis = currentMillis;
+void audioLoop(unsigned long currentMillis, uint8_t state) {
+    if (currentMillis - lastAudioMillis >= 5000) { // audio is 20 seconds long
+        lastAudioMillis = currentMillis;
     switch (state) {
         case CURIOUS:
             dfpPlayer.play(1);
@@ -27,6 +27,7 @@ void audioLoop(uint8_t state) {
         default:
             break;
         }
+    }
     
 }
 //change the numbers of certain music
