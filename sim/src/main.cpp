@@ -72,11 +72,8 @@ void idleMusicLoop(bool isIdle) { //for idle music
 }
 
 void loop() {
-    bool buttonState = digitalRead(2);
-    if (buttonState == LOW && lastButtonState == HIGH) State = (State % 8) + 1;
-    lastButtonState = buttonState;
-    delay(10);
 
+    sensorLoop(&State, millis());
     unsigned long currentMillis = millis();
     //2. eye and servo movement(IDLE movement separated)
     updateBodyAndFace(State,currentMillis);
