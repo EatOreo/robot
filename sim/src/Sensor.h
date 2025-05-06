@@ -1,8 +1,10 @@
 unsigned long lastTap;
+unsigned long lastSensorLoop;
 bool lastSensorState = LOW;
 bool tapped = false;
 
 void sensorLoop(uint8_t* stateAddress, unsigned long currentMillis) {
+    if (currentMillis - lastSensorLoop < 20) return;
     bool sensorState = digitalRead(2);
     if (sensorState == HIGH && lastSensorState == LOW) {
         if (currentMillis - lastTap < 50) return;
@@ -11,7 +13,10 @@ void sensorLoop(uint8_t* stateAddress, unsigned long currentMillis) {
             *stateAddress = SILLY;
             tapped = false;
         }
-        else tapped = true;
+        else {
+            *stateAddress = IDLE;
+            tapped = true;
+        }
         lastTap = currentMillis;
     }
     if (tapped && lastTap + 1000 < currentMillis) {
@@ -20,5 +25,5 @@ void sensorLoop(uint8_t* stateAddress, unsigned long currentMillis) {
         tapped = false;
     }
     lastSensorState = sensorState;
-    delay(10);
+    lastSensorLoop = currentMillis;
 }
