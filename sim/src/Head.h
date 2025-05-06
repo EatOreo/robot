@@ -83,6 +83,10 @@ void servoLoop(uint8_t state, unsigned long currentMillis, unsigned int speed) {
                 resetHead(true);
                 sIV = 50;
                 break;
+            case IDLE:
+                resetHead(true);
+                sIV = 50;
+                break;
             default:
                 resetHead(true);
                 sIV = 50;

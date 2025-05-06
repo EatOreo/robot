@@ -29,6 +29,7 @@ void setup() {
 
     eyes.begin();
     eyes.setBrightness(25);
+
     lSer.attach(9);
     fSer.attach(10);
     rSer.attach(11);
@@ -75,7 +76,7 @@ void loop() {
 
     sensorLoop(&State, millis());
     unsigned long currentMillis = millis();
-    //2. eye and servo movement(IDLE movement separated)
+
     updateBodyAndFace(State,currentMillis);
     idleMusicLoop(State == IDLE);
     
@@ -83,6 +84,7 @@ void loop() {
         audioLoop(State, currentMillis);
         lastAudioState = State;
     }
+
     if (millis() - lastInteractionTime > 30000 && State != IDLE) {
         State = IDLE;
     }
@@ -91,7 +93,7 @@ void loop() {
 //1. Cancelled the loop of repeating music every X seconds
 //Removed if (currentMillis - lastAudioMillis >= 5000)
 //Turned it into a trigger-based system, the audio plays only once when the emotional state changes
-//2. Separating sleep logic from others
+//2. Separating idle logic from others
 //
 //情绪触发冷却时间，防止乱跳
 //add receive -> response module eg: received "WIN" state = HAPPY
