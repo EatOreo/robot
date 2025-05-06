@@ -5,10 +5,10 @@ uint8_t MODULE_ACTUATOR_2 = 0x09;
 uint8_t MODULE_MOVEMENT = 0x0A;
 uint8_t MODULE_POWER = 0x0B;
 
-uint8_t* StatePointer;
+uint8_t* csStatePointer;
 
 void setupCommServer(uint8_t* stateAddress) {
-    StatePointer = stateAddress;
+    csStatePointer = stateAddress;
     Wire.begin();
 }
 
@@ -23,7 +23,7 @@ void commServerLoop(unsigned long currentMillis) {
                 uint8_t state = Wire.read();
                 Serial.print("Received state: ");
                 Serial.println(state);
-                if (state != NONE) *StatePointer = state;
+                if (state != NONE) *csStatePointer = state;
             }
         }
     }

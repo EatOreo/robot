@@ -14,7 +14,7 @@ Servo neckSer;
 SoftwareSerial softSerial(7, 8);
 DFRobotDFPlayerMini dfpPlayer;
 #include <Audio.h>
-#include <CommServer.h>
+#include <Sensor.h>
 
 const unsigned int S = 10;
 static uint8_t State = LOVE; 
@@ -23,9 +23,9 @@ bool audioConnected = false;
 const int touchPin = 2;
 
 void setup() {
+    Serial.begin(9600);
     softSerial.begin(9600);
-    Serial.begin(115200);
-    pinMode(touchPin, INPUT_PULLUP);
+    pinMode(2, INPUT);
 
     eyes.begin();
     eyes.setBrightness(25);
@@ -44,7 +44,6 @@ void setup() {
         //delay enough time to allow music finish
 
     }
-    setupCommServer(&State);
 }
 
 bool lastButtonState = HIGH;
@@ -73,12 +72,8 @@ void idleMusicLoop(bool isIdle) { //for idle music
 }
 
 void loop() {
-    //1. touch input
-    bool buttonState = digitalRead(touchPin);
-    if (buttonState == LOW && lastButtonState == HIGH) {
-        State = (State % 6) + 1; //loop 1-6
-        lastInteractionTime = millis();
-    }
+    bool buttonState = digitalRead(2);
+    if (buttonState == LOW && lastButtonState == HIGH) State = (State % 8) + 1;
     lastButtonState = buttonState;
     delay(10);
 
