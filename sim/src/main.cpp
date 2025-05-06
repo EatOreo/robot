@@ -21,8 +21,8 @@ static uint8_t State = IDLE;
 bool audioConnected = false;
 
 void setup() {
+    Serial.begin(9600);
     softSerial.begin(9600);
-    Serial.begin(115200);
     pinMode(2, INPUT_PULLUP);
 
     eyes.begin();
@@ -48,6 +48,20 @@ void loop() {
     if (buttonState == LOW && lastButtonState == HIGH) State = (State % 8) + 1;
     lastButtonState = buttonState;
     delay(10);
+
+    if (Serial.available() > 0) {
+        String command = Serial.readStringUntil('\n');
+        if (command == "READY") {
+            Serial.println("Actuator is ready");
+        }
+        else if (command == "WIN") {
+            Serial.println("Robot won");
+            State = HAPPY;
+        }
+        else if (command == "Robot lost") {
+            State = SAD;
+        }
+    }
 
     unsigned long currentMillis = millis();
     eyeLoop(State, currentMillis, S);
