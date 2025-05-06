@@ -29,6 +29,5 @@ void audioLoop(unsigned long currentMillis, uint8_t state) {
         }
     }
     
-}
 //change the numbers of certain music
 //add idle music into mode SLEEP
