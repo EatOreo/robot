@@ -14,7 +14,7 @@ Servo neckSer;
 SoftwareSerial softSerial(12, 13);
 DFRobotDFPlayerMini dfpPlayer;
 #include <Audio.h>
-#include <CommServer.h>
+#include <Sensor.h>
 
 const unsigned int S = 10;
 static uint8_t State = IDLE; 
@@ -23,7 +23,7 @@ bool audioConnected = false;
 void setup() {
     Serial.begin(9600);
     softSerial.begin(9600);
-    pinMode(2, INPUT_PULLUP);
+    pinMode(2, INPUT);
 
     eyes.begin();
     lSer.attach(9);
@@ -38,17 +38,10 @@ void setup() {
         audioConnected = true;
         dfpPlayer.volume(30);
     }
-    setupCommServer(&State);
 }
 
-bool lastButtonState = HIGH;
 
 void loop() {
-    bool buttonState = digitalRead(2);
-    if (buttonState == LOW && lastButtonState == HIGH) State = (State % 8) + 1;
-    lastButtonState = buttonState;
-    delay(10);
-
     if (Serial.available() > 0) {
         String command = Serial.readStringUntil('\n');
         if (command == "READY") {
@@ -64,8 +57,8 @@ void loop() {
     }
 
     unsigned long currentMillis = millis();
+    sensorLoop(&State, currentMillis);
     eyeLoop(State, currentMillis, S);
     servoLoop(State, currentMillis, S);
     if (audioConnected) audioLoop(State, currentMillis);
-    commServerLoop(currentMillis);
 }
