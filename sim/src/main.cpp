@@ -17,7 +17,7 @@ DFRobotDFPlayerMini dfpPlayer;
 #include <Sensor.h>
 
 const unsigned int S = 10;
-static uint8_t State = IDLE; 
+static uint8_t State = ANGRY; 
 bool audioConnected = false;
 //sensor input
 const int touchPin = 2;
@@ -39,9 +39,11 @@ void setup() {
     if (!dfpPlayer.begin(softSerial)) {
         Serial.println(F("Unable to use audio player"));  
     }
-    else {
+
+    if (dfpPlayer.begin(softSerial)) {
         audioConnected = true;
         dfpPlayer.volume(25);
+        dfpPlayer.play(1);
         Serial.println(F("Able to use audio player"));
         //delay enough time to allow music finish
     }
@@ -93,6 +95,29 @@ void loop() {
         audioLoop(State, currentMillis);
         lastAudioState = State;
         Serial.println("audioLoop triggered");
+    
+    //游戏结果判定
+    if (Serial.available() > 0) {
+        String command = Serial.readStringUntil('\n');
+        if (command == "READY") {
+            Serial.println("Actuator is ready");
+        }
+        else if (command == "WIN") {
+            Serial.println("Robot won");
+            State = HAPPY;
+        }
+        else if (command == "LOSE") {
+            Serial.println("Robot lost");
+            State = random(0, 2) == 0 ? SAD : ANGRY;
+        }
+        else if (command == "DRAW") { //when gesture is the same
+            Serial.println("Robot draw");
+            State = HAPPY;//adjust a comparative audio ask for one more round
+        }
+        else if (command == "INVALID") {
+            Serial.println("Invalid gesture");
+            State = CURIOUS;//adjust a comparative audio
+        }
     }
 
     if (millis() - lastInteractionTime > 30000 && State != IDLE) {
