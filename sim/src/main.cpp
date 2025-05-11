@@ -19,84 +19,35 @@ DFRobotDFPlayerMini dfpPlayer;
 const unsigned int S = 10;
 static uint8_t State = ANGRY; 
 bool audioConnected = false;
-//sensor input
-const int touchPin = 2;
 
 void setup() {
     Serial.begin(9600);
     softSerial.begin(9600);
-    Serial.println("Setup started.");
     pinMode(2, INPUT);
-
     eyes.begin();
     //eyes.setBrightness(25);
-
     lSer.attach(9);
     fSer.attach(10);
     rSer.attach(11);
     neckSer.attach(3);
     resetHead();
+
+    delay(1000);
     if (!dfpPlayer.begin(softSerial)) {
         Serial.println(F("Unable to use audio player"));  
     }
-
-    if (dfpPlayer.begin(softSerial)) {
+    else {
         audioConnected = true;
         dfpPlayer.volume(25);
-        dfpPlayer.play(1);
         Serial.println(F("Able to use audio player"));
-        //delay enough time to allow music finish
     }
 }
 
-bool lastButtonState = HIGH;
-uint8_t lastAudioState = 0;
 unsigned long lastInteractionTime = 0;
 
-void updateBodyAndFace(uint8_t state, unsigned long currentMillis) {
-    if (state == IDLE) {
-        eyeLoop(IDLE, currentMillis, S);
-        servoLoop(IDLE, currentMillis, S);
-    } else {
-        eyeLoop(state, currentMillis, S);
-        servoLoop(state, currentMillis, S);
-    }
-}
-
-void idleMusicLoop(bool isIdle) { //for idle music
-    static bool isPlaying = false;
-    if (isIdle && !isPlaying) {
-        dfpPlayer.loop(10);  // put a number 10(?) music file, state matches music number
-        isPlaying = true;
-    } else if (!isIdle && isPlaying) {
-        dfpPlayer.stop();
-        isPlaying = false;
-    }
-}
-
 void loop() {
-    Serial.println("Loop running");
-    delay(1000);
-
-    Serial.print("Current State = ");
-    Serial.println(State);
-
-    sensorLoop(&State, millis());
     unsigned long currentMillis = millis();
-    Serial.println("sensorLoop finished");
 
-    updateBodyAndFace(State,currentMillis);
-    Serial.println("updateBodyAndFace finished");
-    idleMusicLoop(State == IDLE);
-    Serial.println("idleMusicLoop checked");
-    
-    if (audioConnected && State != lastAudioState && State != IDLE) {
-        if (audioConnected && State != lastAudioState && State != IDLE) {
-        audioLoop(State, currentMillis);
-        lastAudioState = State;
-        Serial.println("audioLoop triggered");
-    
-    //游戏结果判定
     if (Serial.available() > 0) {
         String command = Serial.readStringUntil('\n');
         if (command == "READY") {
@@ -110,7 +61,7 @@ void loop() {
             Serial.println("Robot lost");
             State = random(0, 2) == 0 ? SAD : ANGRY;
         }
-        else if (command == "DRAW") { //when gesture is the same
+        else if (command == "DRAW") {
             Serial.println("Robot draw");
             State = HAPPY;//adjust a comparative audio ask for one more round
         }
@@ -118,17 +69,16 @@ void loop() {
             Serial.println("Invalid gesture");
             State = CURIOUS;//adjust a comparative audio
         }
+        lastInteractionTime = currentMillis;
     }
 
-    if (millis() - lastInteractionTime > 30000 && State != IDLE) {
+    if (sensorLoop(&State, currentMillis)) lastInteractionTime = currentMillis;
+    eyeLoop(State, currentMillis, S);
+    servoLoop(State, currentMillis, S);
+    if (audioConnected) audioLoop(State, currentMillis);
+
+    if (currentMillis - lastInteractionTime > 60000) {
         State = IDLE;
-        Serial.println("Idle mode activated");
+        lastInteractionTime = currentMillis;
     }
 }
-
-//1. Cancelled the loop of repeating music every X seconds
-//Removed if (currentMillis - lastAudioMillis >= 5000)
-//Turned it into a trigger-based system, the audio plays only once when the emotional state changes
-//2. Separating idle logic from others
-//3. [Doing]Wait one single emotion/music till the end or else it changes really quick
-//4. Add receive -> response module eg: received "WIN" state = HAPPY
