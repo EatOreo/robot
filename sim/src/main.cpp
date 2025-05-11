@@ -17,7 +17,7 @@ DFRobotDFPlayerMini dfpPlayer;
 #include <Sensor.h>
 
 const unsigned int S = 10;
-static uint8_t State = ANGRY; 
+static uint8_t State = IDLE; 
 bool audioConnected = false;
 
 void setup() {
@@ -34,13 +34,14 @@ void setup() {
 
     delay(1000);
     if (!dfpPlayer.begin(softSerial)) {
-        Serial.println(F("Unable to use audio player"));  
+        State = ERROR;
     }
     else {
         audioConnected = true;
         dfpPlayer.volume(25);
-        Serial.println(F("Able to use audio player"));
     }
+
+    Serial.println(F("READY"));
 }
 
 unsigned long lastInteractionTime = 0;
@@ -51,24 +52,15 @@ void loop() {
     if (Serial.available() > 0) {
         String command = Serial.readStringUntil('\n');
         if (command == "READY") {
-            Serial.println("Actuator is ready");
         }
-        else if (command == "WIN") {
-            Serial.println("Robot won");
-            State = HAPPY;
-        }
-        else if (command == "LOSE") {
-            Serial.println("Robot lost");
+        else if (command == "WIN")
+            State = LOVE;
+        else if (command == "LOSE")
             State = random(0, 2) == 0 ? SAD : ANGRY;
-        }
-        else if (command == "DRAW") {
-            Serial.println("Robot draw");
-            State = HAPPY;//adjust a comparative audio ask for one more round
-        }
-        else if (command == "INVALID") {
-            Serial.println("Invalid gesture");
-            State = CURIOUS;//adjust a comparative audio
-        }
+        else if (command == "TIE")
+            State = HAPPY;
+        else
+            State = CURIOUS;
         lastInteractionTime = currentMillis;
     }
 
@@ -77,7 +69,7 @@ void loop() {
     servoLoop(State, currentMillis, S);
     if (audioConnected) audioLoop(State, currentMillis);
 
-    if (currentMillis - lastInteractionTime > 60000) {
+    if (currentMillis - lastInteractionTime > 30000) {
         State = IDLE;
         lastInteractionTime = currentMillis;
     }

@@ -4,14 +4,14 @@ bool lastSensorState = LOW;
 bool tapped = false;
 
 bool sensorLoop(uint8_t* stateAddress, unsigned long currentMillis) {
-    if (currentMillis - lastSensorLoop < 20) return false;
+    if (*stateAddress > IDLE || currentMillis - lastSensorLoop < 20) return false;
     bool sensorState = digitalRead(2);
     if (sensorState == HIGH && lastSensorState == LOW) {
         if (currentMillis - lastTap < 50) return true;
         if (currentMillis - lastTap < 1000) { // double tap
-            Serial.println("Double tap detected");
             *stateAddress = SILLY;
             tapped = false;
+            Serial.println("CALL OA2");
         }
         else {
             *stateAddress = IDLE;
@@ -20,9 +20,9 @@ bool sensorLoop(uint8_t* stateAddress, unsigned long currentMillis) {
         lastTap = currentMillis;
     }
     if (tapped && lastTap + 1000 < currentMillis) {
-        Serial.println("Single tap detected");
         *stateAddress = HAPPY;
         tapped = false;
+        Serial.println("CALL OA1");
     }
     lastSensorState = sensorState;
     lastSensorLoop = currentMillis;

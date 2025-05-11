@@ -7,6 +7,7 @@ const uint64_t MEAN = 0x007e3e1e0e060200;
 const uint64_t MEAN_BROW = 0x0080402010080402;
 const uint64_t SMILE = 0x0042424242423c00;
 const uint64_t CLOSED = 0x0000003c00000000;
+const uint64_t EXCLAMATION = 0x1818001818181818;
 const uint64_t BLINK[] = {
 	0x007e7e66667e7e00,
 	0x00007e667e7e0000,
@@ -119,6 +120,10 @@ void eyeLoop(uint8_t state, unsigned long currentMillis, unsigned int speed) {
 			case SLEEP:
 				draw(CLOSED);
 				eIV = 100;
+				break;
+			case ERROR:
+				if (frame % 2 == 0) draw(EXCLAMATION, true, 0xff0000);
+				eIV = frame % 2 == 0 ? 30 : 10;
 				break;
 			default:
 				draw(CLOSED);

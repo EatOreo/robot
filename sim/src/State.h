@@ -1,22 +1,11 @@
-//enum State {
-//    NONE = 0,
-//    IDLE = 1,
-//    CURIOUS = 2,
-//    LOVE = 3,
-//    HAPPY = 4,
-//    SILLY = 5,
-//    ANGRY = 6,
-//    SAD = 7,
-//    SLEEP = 8
-//};
-
 enum State {
-    IDLE = 0,       //no interaction,default state & music
-    CURIOUS = 1,
-    LOVE = 2,
-    HAPPY = 3,
-    SILLY = 4,
-    ANGRY = 5,
-    SAD = 6,
-    SLEEP = 7,
+    ERROR = 0,
+    IDLE = 1,
+    SLEEP = 2,
+    CURIOUS = 3,
+    LOVE = 4,
+    HAPPY = 5,
+    SILLY = 6,
+    ANGRY = 7,
+    SAD = 8,
 };
