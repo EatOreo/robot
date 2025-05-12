@@ -38,16 +38,22 @@ bool moveHead(unsigned int l, unsigned int f, unsigned int r, unsigned int step 
 unsigned long lastHeadMillis = 0;
 unsigned int sIV = 8;
 unsigned int iter = 0;
+bool chill = false;
 
 void servoLoop(uint8_t state, unsigned long currentMillis, unsigned int speed) {
     if (currentMillis - lastHeadMillis >= sIV * speed) {
         lastHeadMillis = currentMillis;
+
+        if (chill) {
+            if (random(0, 8) == 0) chill = false;
+            else return;
+        }
         bool even = iter % 2 == 0;
 
         switch (state) {
             case CURIOUS:
                 moveHead(2, 0, 2);
-                if (rotateNeck(even ? -8 : 8)) iter++;
+                if (rotateNeck(even ? -8 : 8)) chill = iter++ || true;
                 sIV = 8;
                 break;
             case LOVE:
@@ -56,26 +62,26 @@ void servoLoop(uint8_t state, unsigned long currentMillis, unsigned int speed) {
                 sIV = 8;
                 break;
             case HAPPY:
-                if (moveHead(even ? 3 : 0, 0, even ? 0 : 3, 8)) iter++;
+                if (moveHead(even ? 3 : 0, 0, even ? 0 : 3, 8)) chill = iter++ || true;
                 rotateNeck(even ? -1 : 1, 3);
                 sIV = 8;
                 break;
             case SILLY:
                 if (moveHead((iter % 3 == 0) ? 3 : 0,
                     ((iter + 1) % 3 == 0) ? 3 : 0,
-                    ((iter + 2) % 3 == 0) ? 3 : 0, 4)) iter++;
+                    ((iter + 2) % 3 == 0) ? 3 : 0, 4)) chill = iter++ || true;
                 rotateNeck(even ? -2 : 2, 3);
                 sIV = 8;
                 break;
             case ANGRY:
                 if (moveHead((iter % 3 == 0) ? 5 : 1,
                     ((iter + 1) % 3 == 0) ? 5 : 1,
-                    ((iter + 2) % 3 == 0) ? 5 : 1, 8)) iter++;
+                    ((iter + 2) % 3 == 0) ? 5 : 1, 8)) chill = iter++ || true;
                 rotateNeck(even ? -4 : 4, 8);
                 sIV = 3;
                 break;
             case SAD:
-                if (rotateNeck(even ? -1 : 1, 1)) iter++;
+                if (rotateNeck(even ? -1 : 1, 1)) chill = iter++ || true;
                 moveHead(0, 7, 0, 10);
                 sIV = 10;
                 break;

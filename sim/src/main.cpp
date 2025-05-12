@@ -51,6 +51,7 @@ void loop() {
 
     if (Serial.available() > 0) {
         String command = Serial.readStringUntil('\n');
+        // TODO: recieve ack from actuator after calling them to start
         if (command == "READY") {
         }
         else if (command == "WIN")
