@@ -27,13 +27,14 @@ void setup() {
     pinMode(2, INPUT);
     eyes.begin();
     //eyes.setBrightness(25);
+    draw(SLEEP);
     lSer.attach(9);
     fSer.attach(10);
     rSer.attach(11);
     neckSer.attach(3);
     resetHead();
 
-    delay(1000);
+    delay(5000);
     if (!dfpPlayer.begin(softSerial)) {
         State = ERROR;
     }
