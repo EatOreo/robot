@@ -34,13 +34,20 @@ void setup() {
     neckSer.attach(3);
     resetHead();
 
-    delay(5000);
-    if (!dfpPlayer.begin(softSerial)) {
+    delay(1000); // Wait for DFPlayer Mini to power up
+    unsigned long startTime = millis();
+    while (!dfpPlayer.begin(softSerial)) {
+        if (millis() - startTime > 5000) { // 5-second timeout
+            State = ERROR;
+            break;
+        }
         State = ERROR;
     }
-    else {
+
+    if (dfpPlayer.begin(softSerial)) {
         audioConnected = true;
-        dfpPlayer.volume(5);
+        dfpPlayer.volume(30);
+        dfpPlayer.play(1);
     }
 
     Serial.println(F("READY"));
