@@ -1,29 +1,29 @@
 uint8_t lastAudioState = 0;
-void audioLoop(unsigned long currentMillis, uint8_t state) {
+void audioLoop(uint8_t state) {
     if (lastAudioState != state) {
         lastAudioState = state;
 
         switch (state) {
             case CURIOUS:
-                dfpPlayer.loop(1);
+                dfpPlayer.play(1);
                 break;
             case LOVE:
-                dfpPlayer.loop(2);
+                dfpPlayer.play(2);
                 break;
             case HAPPY:
-                dfpPlayer.loop(3);
+                dfpPlayer.play(3);
                 break;
             case SILLY:
-                dfpPlayer.loop(4);
+                dfpPlayer.play(4);
                 break;
             case ANGRY:
-                dfpPlayer.loop(5);
+                dfpPlayer.play(5);
                 break;
             case SAD:
-                dfpPlayer.loop(6);
+                dfpPlayer.play(6);
                 break;
             case SLEEP:
-                dfpPlayer.loop(7);
+                dfpPlayer.play(7);
                 break;
             default:
                 break;

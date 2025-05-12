@@ -39,7 +39,7 @@ void setup() {
     }
     else {
         audioConnected = true;
-        dfpPlayer.volume(25);
+        dfpPlayer.volume(5);
     }
 
     Serial.println(F("READY"));
@@ -87,7 +87,7 @@ void loop() {
     if (sensorLoop(&State, InControl, currentMillis)) lastInteractionTime = currentMillis;
     eyeLoop(State, currentMillis, S);
     servoLoop(State, currentMillis, S);
-    if (audioConnected) audioLoop(State, currentMillis);
+    if (audioConnected) audioLoop(State);
 
     if (State == LETSGO && currentMillis - lastInteractionTime > 12000) {
         State = HAPPY;
