@@ -3,24 +3,24 @@ unsigned long lastSensorLoop;
 bool lastSensorState = LOW;
 bool tapped = false;
 
-bool sensorLoop(uint8_t* stateAddress, unsigned long currentMillis) {
-    if (*stateAddress > CURIOUS || currentMillis - lastSensorLoop < 20) return false;
+bool sensorLoop(uint8_t* state, uint8_t inControl, unsigned long currentMillis) {
+    if (inControl != SELF || currentMillis - lastSensorLoop < 20) return false;
+    if ((*state == ONETAP || *state == TWOTAP) && currentMillis - lastTap > 5000) *state = CURIOUS;
     bool sensorState = digitalRead(2);
     if (sensorState == HIGH && lastSensorState == LOW) {
         if (currentMillis - lastTap < 50) return true;
         if (currentMillis - lastTap < 1000) { // double tap
-            *stateAddress = TWOTAP;
+            *state = TWOTAP;
             tapped = false;
             Serial.println("CALL OA2");
         }
         else {
-            *stateAddress = ONETAP;
+            *state = ONETAP;
             tapped = true;
         }
         lastTap = currentMillis;
     }
     if (tapped && lastTap + 1000 < currentMillis) {
-        *stateAddress = HAPPY;
         tapped = false;
         Serial.println("CALL OA1");
     }

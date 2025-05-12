@@ -10,4 +10,13 @@ enum State {
     SILLY = 22,
     ANGRY = 30,
     SAD = 31,
+    LETSGO = 90,
+};
+
+enum Control {
+    SELF = 0,
+    OA1 = 1,
+    OA2 = 2,
+    MOV = 3,
+    POW = 4,
 };

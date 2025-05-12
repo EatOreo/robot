@@ -43,6 +43,59 @@ const uint64_t CIRCLE[] = {
 	0x007e72727e7e7e00,
 	0x007e7e72727e7e00
 };
+const uint64_t LETS_GO[] = {
+	0x0000000000000000,
+	0x8080808080808080,
+	0xc040404040404040,
+	0xe020202020202020,
+	0xf010101010101010,
+	0x7808080808080808,
+	0xbc84848484848484,
+	0xde424242c24242c2,
+	0xef212121e12121e1,
+	0xf7101010f01010f0,
+	0x7b08080878080878,
+	0x3d0404043c0404bc,
+	0x1e0202021e0202de,
+	0x8f8181818f8181ef,
+	0x47404040474040f7,
+	0x23202020232020fb,
+	0x111010101110107d,
+	0x88080888888888be,
+	0xc40404c4444444df,
+	0xe20202e2222222ef,
+	0xf18181f1111111f7,
+	0x784040780808087b,
+	0x3c20203c0404043d,
+	0x1e10101e0202021e,
+	0x8f88888f8181818f,
+	0xc7444447c04040c7,
+	0xe3222223e02020e3,
+	0xf1919191f01090f1,
+	0x7848484878084878,
+	0xbca4a4a4bc84a4bc,
+	0xde5252525e4252de,
+	0xef2929292f2129ef,
+	0xf7949494979094f7,
+	0x7b4a4a4a4b484a7b,
+	0xbd25a5a5a5a4a5bd,
+	0x5e1252525252525e,
+	0x2f0929292929292f,
+	0x1704141414141417,
+	0x0b020a0a0a0a0a0b,
+	0x0501050505050505,
+	0x0200020202020202,
+	0x0100010101010101
+};
+
+void drawLetsGo(unsigned long framenr) {
+	for (int i = 0; i < 64; i++) {
+		if ((LETS_GO[framenr % 42] >> i) & 1)
+			eyes.setPixelColor(i, 0x39FF14);
+		if ((LETS_GO[(framenr + 8) % 42] >> i) & 1) 
+			eyes.setPixelColor(i + 64, 0x39FF14);
+	}
+}
 
 void draw(const uint64_t frame, bool mirror = false, uint32_t color = 0x00ff00) {
 	for (int i = 0; i < 64; i++) {
@@ -135,12 +188,15 @@ void eyeLoop(uint8_t state, unsigned long currentMillis, unsigned int speed) {
 				draw(NUM_TWO, false, 0x0000ff);
 				eIV = 100;
 				break;
+			case LETSGO:
+				drawLetsGo(frame);
+				eIV = 8;
+				break;
 			default:
 				draw(CLOSED);
 				eIV = 100;
 				break;
 		}
-
 		eyes.show();
 		frame++;
     }
