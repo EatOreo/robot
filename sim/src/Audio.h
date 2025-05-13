@@ -1,4 +1,7 @@
 uint8_t lastAudioState = 0;
+static unsigned long lastPlayTime = 0;
+const unsigned long minPlayDuration = 3000; 
+
 void audioLoop(uint8_t state) {
     if (lastAudioState != state) {
         lastAudioState = state;
@@ -30,6 +33,10 @@ void audioLoop(uint8_t state) {
             default:
                 break;
         }
-        if (toPlay != 0 && toPlay != dfpPlayer.readCurrentFileNumber()) dfpPlayer.play(toPlay);
-    }
+        if (millis() - lastPlayTime > minPlayDuration) {
+            if (toPlay != 0 && toPlay != dfpPlayer.readCurrentFileNumber()) {
+                dfpPlayer.play(toPlay);
+                lastPlayTime = millis();
+            }
+        }
 }
