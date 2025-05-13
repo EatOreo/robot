@@ -39,4 +39,5 @@ void audioLoop(uint8_t state) {
                 lastPlayTime = millis();
             }
         }
+    }
 }

@@ -34,6 +34,7 @@ void setup() {
     neckSer.attach(3);
     resetHead();
 
+    //TODO: Why is this below breaking the servos (and eyes?)?
     delay(1000);
     unsigned long startTime = millis();
     while (!dfpPlayer.begin(softSerial)) {
