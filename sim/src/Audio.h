@@ -3,30 +3,33 @@ void audioLoop(uint8_t state) {
     if (lastAudioState != state) {
         lastAudioState = state;
 
+        uint8_t toPlay = 0;
+
         switch (state) {
             case CURIOUS:
-                dfpPlayer.play(1);
+                toPlay = 1;
                 break;
             case LOVE:
-                dfpPlayer.play(2);
+                toPlay = 2;
                 break;
             case HAPPY:
-                dfpPlayer.play(3);
+                toPlay = 3;
                 break;
             case SILLY:
-                dfpPlayer.play(4);
+                toPlay = 4;
                 break;
             case ANGRY:
-                dfpPlayer.play(5);
+                toPlay = 5;
                 break;
             case SAD:
-                dfpPlayer.play(6);
+                toPlay = 6;
                 break;
             case SLEEP:
-                dfpPlayer.play(7);
+                toPlay = 7;
                 break;
             default:
                 break;
         }
+        if (toPlay != 0 && toPlay != dfpPlayer.readCurrentFileNumber()) dfpPlayer.play(toPlay);
     }
 }

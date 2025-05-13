@@ -34,19 +34,19 @@ void setup() {
     neckSer.attach(3);
     resetHead();
 
-    delay(1000); // Wait for DFPlayer Mini to power up
+    delay(1000);
     unsigned long startTime = millis();
     while (!dfpPlayer.begin(softSerial)) {
-        if (millis() - startTime > 5000) { // 5-second timeout
+        if (millis() - startTime > 5000) {
             State = ERROR;
             break;
         }
         State = ERROR;
     }
 
-    if (dfpPlayer.begin(softSerial)) {
+    if (dfpPlayer.begin(softSerial, true, true)) {
         audioConnected = true;
-        dfpPlayer.volume(30);
+        dfpPlayer.volume(25);
         dfpPlayer.play(1);
     }
 
@@ -60,7 +60,6 @@ void loop() {
 
     if (Serial.available() > 0) {
         String command = Serial.readStringUntil('\n');
-        // TODO: recieve ack from actuator after calling them to start and set InControl
         if (command == "OA1 ACK") {
             // if (State == ONETAP) {
             State = LETSGO;
