@@ -91,9 +91,9 @@ const uint64_t LETS_GO[] = {
 void drawLetsGo(unsigned long framenr) {
 	for (int i = 0; i < 64; i++) {
 		if ((LETS_GO[framenr % 42] >> i) & 1)
-			eyes.setPixelColor(i, 0x39FF14);
-		if ((LETS_GO[(framenr + 8) % 42] >> i) & 1) 
-			eyes.setPixelColor(i + 64, 0x39FF14);
+			eyes.setPixelColor(i, 0xf000ff);
+		if ((LETS_GO[(framenr + 9) % 42] >> i) & 1) 
+			eyes.setPixelColor(i + 64, 0xf000ff);
 	}
 }
 
@@ -188,7 +188,7 @@ void eyeLoop(uint8_t state, unsigned long currentMillis, unsigned int speed) {
 				draw(NUM_TWO, false, 0x0000ff);
 				eIV = 100;
 				break;
-			case LETSGO:
+			case GAMESTART:
 				drawLetsGo(frame);
 				eIV = 8;
 				break;

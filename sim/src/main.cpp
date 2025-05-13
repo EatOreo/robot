@@ -18,7 +18,6 @@ DFRobotDFPlayerMini dfpPlayer;
 
 const unsigned int S = 10;
 static uint8_t State = IDLE; 
-static uint8_t InControl = SELF;
 bool audioConnected = false;
 
 void setup() {
@@ -61,47 +60,27 @@ void loop() {
 
     if (Serial.available() > 0) {
         String command = Serial.readStringUntil('\n');
-        if (command == "OA1 ACK") {
-            // if (State == ONETAP) {
-            State = LETSGO;
-            InControl = OA1;
-            // }
-        }
-        else if (command == "OA2 ACK") {
-            // if (State == TWOTAP) {
-            State = LETSGO;
-            InControl = OA2;
-            // }
-        }
-        else if (command == "WIN") {
+        if (command == "WIN")
             State = LOVE;
-            InControl = SELF;
-        }
-        else if (command == "LOSE") {
+        else if (command == "LOSE")
             State = random(0, 2) == 0 ? SAD : ANGRY;
-            InControl = SELF;
-        }
-        else if (command == "TIE") {
+        else if (command == "TIE")
             State = HAPPY;
-            InControl = SELF;
-        }
-        else {
+        else
             State = CURIOUS;
-            InControl = SELF;
-        }
         lastInteractionTime = currentMillis;
     }
 
-    if (sensorLoop(&State, InControl, currentMillis)) lastInteractionTime = currentMillis;
+    if (sensorLoop(&State, currentMillis)) lastInteractionTime = currentMillis;
     eyeLoop(State, currentMillis, S);
     servoLoop(State, currentMillis, S);
     if (audioConnected) audioLoop(State);
 
-    if (State == LETSGO && currentMillis - lastInteractionTime > 12000) {
+    if (State == GAMESTART && currentMillis - lastInteractionTime > 5000) {
         State = HAPPY;
         lastInteractionTime = currentMillis;
     }
-    else if (InControl == SELF && currentMillis - lastInteractionTime > 30000) {
+    else if (currentMillis - lastInteractionTime > 30000) {
         State = IDLE;
         lastInteractionTime = currentMillis;
     }

@@ -3,11 +3,11 @@ unsigned long lastSensorLoop;
 bool lastSensorState = LOW;
 bool tapped = false;
 
-bool sensorLoop(uint8_t* state, uint8_t inControl, unsigned long currentMillis) {
-    if (inControl != SELF || currentMillis - lastSensorLoop < 20) return false;
-    if ((*state == ONETAP || *state == TWOTAP) && currentMillis - lastTap > 5000) *state = CURIOUS;
+bool sensorLoop(uint8_t* state, unsigned long currentMillis) {
+    if (currentMillis - lastSensorLoop < 20) return false;
+    if ((*state == ONETAP || *state == TWOTAP) && currentMillis - lastTap > 1000) *state = GAMESTART;
     bool sensorState = digitalRead(2);
-    if (sensorState == HIGH && lastSensorState == LOW) {
+    if (*state != TWOTAP && sensorState == HIGH && lastSensorState == LOW) {
         if (currentMillis - lastTap < 50) return true;
         if (currentMillis - lastTap < 1000) { // double tap
             *state = TWOTAP;

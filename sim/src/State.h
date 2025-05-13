@@ -10,7 +10,7 @@ enum State {
     SILLY = 22,
     ANGRY = 30,
     SAD = 31,
-    LETSGO = 90,
+    GAMESTART = 90,
 };
 
 enum Control {
