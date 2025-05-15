@@ -119,6 +119,7 @@ void blinkWithProb(int prob) {
 }
 
 void eyeLoop(uint8_t state, unsigned long currentMillis, unsigned int speed) {
+    if (DEBUG && currentMillis % 1000 == 700) Serial.println("eyes");
 	if (currentMillis - lastEyeMillis >= eIV * speed) {
 		lastEyeMillis = currentMillis;
 

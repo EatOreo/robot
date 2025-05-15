@@ -41,6 +41,7 @@ unsigned int iter = 0;
 bool chill = false;
 
 void servoLoop(uint8_t state, unsigned long currentMillis, unsigned int speed) {
+    if (DEBUG && currentMillis % 1000 == 800) Serial.println("servos");
     if (currentMillis - lastHeadMillis >= sIV * speed) {
         lastHeadMillis = currentMillis;
 
