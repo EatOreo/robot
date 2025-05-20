@@ -36,7 +36,7 @@ void setup() {
 
     //TODO: Why is this below breaking the servos (and eyes?)?
     delay(1000);
-    if (!connectAudio()) State = ERROR;
+    if (!connectAudio()) State = ANGRY;
 
     Serial.println(F("READY"));
 }

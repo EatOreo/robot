@@ -91,17 +91,17 @@ const uint64_t LETS_GO[] = {
 void drawLetsGo(unsigned long framenr) {
 	for (int i = 0; i < 64; i++) {
 		if ((LETS_GO[framenr % 42] >> i) & 1)
-			eyes.setPixelColor(i, 0xf000ff);
-		if ((LETS_GO[(framenr + 9) % 42] >> i) & 1) 
 			eyes.setPixelColor(i + 64, 0xf000ff);
+		if ((LETS_GO[(framenr + 9) % 42] >> i) & 1) 
+			eyes.setPixelColor(i, 0xf000ff);
 	}
 }
 
 void draw(const uint64_t frame, bool mirror = false, uint32_t color = 0x00ff00) {
 	for (int i = 0; i < 64; i++) {
 		if ((frame >> i) & 1) {
-			eyes.setPixelColor(i, color);
-			eyes.setPixelColor((mirror ? (7 - (i % 8)) + (i / 8) * 8 : i) + 64, color);
+			eyes.setPixelColor(i + 64, color);
+			eyes.setPixelColor((mirror ? (7 - (i % 8)) + (i / 8) * 8 : i), color);
 		}
 	}
 }
