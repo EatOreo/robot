@@ -3,7 +3,7 @@
 #include <Servo.h>
 #include <SoftwareSerial.h>
 #include <DFRobotDFPlayerMini.h>
-const bool DEBUG = false;
+const bool DEBUG = true;
 #include <State.h>
 Adafruit_NeoPixel eyes(128, 5, NEO_GRB + NEO_KHZ800);
 #include <Eyes.h>
@@ -66,7 +66,7 @@ void loop() {
         else if (command == "TIE")
             State = HAPPY;
         lastInteractionTime = currentMillis;
-        if (dfPlayer.readState() == -1) connectAudio();
+        if (!audioConnected) connectAudio();
     }
 
     if (sensorLoop(&State, currentMillis)) {
@@ -80,7 +80,7 @@ void loop() {
         State = HAPPY;
         lastInteractionTime = currentMillis;
     }
-    else if (currentMillis - lastInteractionTime > 30000) {
+    else if (currentMillis - lastInteractionTime > 10000) {
         State = IDLE;
         lastInteractionTime = currentMillis;
     }

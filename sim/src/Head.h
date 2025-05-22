@@ -1,4 +1,4 @@
-const int ANGLE_MULTIPLIER = 18;
+const int ANGLE_MULTIPLIER = 12;
 
 void write(Servo servo, unsigned int pos) {
     servo.write(min(pos, 10) * ANGLE_MULTIPLIER);
@@ -26,7 +26,7 @@ void resetHead(bool alsoResetNeck = true) {
     if (alsoResetNeck) resetNeck();
 }
 bool rotateNeck(int pos, unsigned int step = 2) {
-    return approach(neckSer, map(-pos, -10, 10, 0, 180), step);
+    return approach(neckSer, map(-pos, -10, 10, 30, 150), step / 2);
 }
 bool moveHead(unsigned int l, unsigned int f, unsigned int r, unsigned int step = 2) {
     bool leftReached = approach(lSer, min(l, 10) * ANGLE_MULTIPLIER, step);
@@ -77,14 +77,14 @@ void servoLoop(uint8_t state, unsigned long currentMillis, unsigned int speed) {
             case ANGRY:
                 if (moveHead((iter % 3 == 0) ? 5 : 1,
                     ((iter + 1) % 3 == 0) ? 5 : 1,
-                    ((iter + 2) % 3 == 0) ? 5 : 1, 8)) chill = iter++ || true;
-                rotateNeck(even ? -4 : 4, 8);
-                sIV = 3;
+                    ((iter + 2) % 3 == 0) ? 5 : 1, 6)) chill = iter++ || true;
+                rotateNeck(even ? -4 : 4, 6);
+                sIV = 5;
                 break;
             case SAD:
-                if (rotateNeck(even ? -1 : 1, 1)) chill = iter++ || true;
-                moveHead(0, 7, 0, 10);
-                sIV = 10;
+                if (rotateNeck(even ? -1 : 1, 2)) chill = iter++ || true;
+                moveHead(9, 0, 11, 2);
+                sIV = 8;
                 break;
             case SLEEP:
                 resetHead(true);

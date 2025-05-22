@@ -1,8 +1,7 @@
 bool connectAudio() {
     softSerial.begin(9600);
     if (dfPlayer.begin(softSerial, true, true)) {
-        dfPlayer.volume(25);
-        dfPlayer.play(1);
+        dfPlayer.volume(30);
         audioConnected = true;
         return true;
     }
