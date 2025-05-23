@@ -76,7 +76,7 @@ void loop() {
     servoLoop(State, currentMillis, S);
     if (audioConnected) audioLoop(State, currentMillis);
 
-    if (State == GAMESTART && currentMillis - lastInteractionTime > 7000) {
+    if (State == GAMESTART && currentMillis - lastInteractionTime > 6000) {
         State = HAPPY;
         lastInteractionTime = currentMillis;
     }

@@ -58,7 +58,7 @@ void servoLoop(uint8_t state, unsigned long currentMillis, unsigned int speed) {
                 sIV = 8;
                 break;
             case LOVE:
-                moveHead(5, 0, 5);
+                moveHead(0, 11, 0);
                 rotateNeck(0);
                 sIV = 8;
                 break;

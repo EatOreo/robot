@@ -46,13 +46,9 @@ void audioLoop(uint8_t state, unsigned long currentMillis) {
 
         Serial.print("toPlay: ");
         Serial.println(toPlay);
-        if (toPlay == 0) {
-            Serial.println("Stopping audio...");
-            dfPlayer.stop();
-        }
-        else {
-            dfPlayer.playMp3Folder(toPlay);
+        if (toPlay != 0 && dfPlayer.readCurrentFileNumber() != toPlay) {
             Serial.println("Playing audio...");
+            dfPlayer.playMp3Folder(toPlay);
         }
     }
 }
