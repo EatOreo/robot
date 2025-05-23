@@ -30,17 +30,17 @@ void audioLoop(uint8_t state, unsigned long currentMillis) {
             case HAPPY:
                 toPlay = 3;
                 break;
-            case SILLY:
-                toPlay = 4;
-                break;
+            // case SILLY:
+            //     toPlay = 4;
+            //     break;
             case ANGRY:
                 toPlay = 5;
                 break;
             case SAD:
                 toPlay = 6;
                 break;
-            case SLEEP:
-                toPlay = 7;
+            case GAMESTART:
+                toPlay = 77;
                 break;
             default:
                 break;
