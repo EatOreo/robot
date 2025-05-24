@@ -65,6 +65,16 @@ void loop() {
             State = random(0, 2) == 0 ? SAD : ANGRY;
         else if (command == "TIE")
             State = HAPPY;
+        else if (command.startsWith("OA2")) {
+            int track = command.substring(3).toInt() + 30;
+            if (DEBUG) {
+                Serial.print("Playing track: ");
+                Serial.println(track);
+            }
+            if (track > 0 && audioConnected) {
+                dfPlayer.play(track);
+            }
+        }
         lastInteractionTime = currentMillis;
         if (!audioConnected) connectAudio();
     }
