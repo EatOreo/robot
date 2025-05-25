@@ -40,6 +40,9 @@ void audioLoop(uint8_t state, unsigned long currentMillis) {
             case GAMESTART:
                 toPlay = 7;
                 break;
+            case CURIOUS:
+                toPlay = 10;
+                break;
             default:
                 break;
         }
@@ -48,7 +51,7 @@ void audioLoop(uint8_t state, unsigned long currentMillis) {
             Serial.print("toPlay: ");
             Serial.println(toPlay);
         }
-        if (toPlay != 0 && dfPlayer.readCurrentFileNumber() != toPlay) {
+        if (toPlay > 0 && dfPlayer.readCurrentFileNumber() != toPlay) {
             if (DEBUG) Serial.println("Playing audio...");
             dfPlayer.playMp3Folder(toPlay);
         }

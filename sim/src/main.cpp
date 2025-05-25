@@ -20,6 +20,7 @@ bool audioConnected = false;
 
 const unsigned int S = 10;
 static uint8_t State = IDLE; 
+static uint8_t SelectedActuator = 0;
 
 void setup() {
     Serial.begin(9600);
@@ -58,27 +59,31 @@ void loop() {
             Serial.print("Command: ");
             Serial.println(command);
         }
-        if (command == "WIN")
+        if (command.startsWith("FOUND")) {
+            State = CURIOUS;
+        }
+        else if (command == "WIN")
             State = LOVE;
         else if (command == "LOSE")
             State = random(0, 2) == 0 ? SAD : ANGRY;
         else if (command == "TIE")
             State = HAPPY;
         else if (command.startsWith("OA2")) {
-            int track = command.substring(3).toInt() + 30;
+            int toPlay = command.substring(3).toInt() + 30;
             if (DEBUG) {
-                Serial.print("Playing track: ");
-                Serial.println(track);
+                Serial.print("toPlay: ");
+                Serial.println(toPlay);
             }
-            if (track > 0 && audioConnected) {
-                dfPlayer.play(track);
+            if (toPlay > 0 && audioConnected && dfPlayer.readCurrentFileNumber() != toPlay) {
+                if (DEBUG) Serial.println("Playing audio...");
+                dfPlayer.playMp3Folder(toPlay);
             }
         }
         lastInteractionTime = currentMillis;
         if (!audioConnected) connectAudio();
     }
 
-    if (sensorLoop(&State, currentMillis)) {
+    if (sensorLoop(&State, currentMillis, &SelectedActuator)) {
         lastInteractionTime = currentMillis;
     }
     eyeLoop(State, currentMillis, S);
@@ -89,7 +94,7 @@ void loop() {
         State = HAPPY;
         lastInteractionTime = currentMillis;
     }
-    else if (currentMillis - lastInteractionTime > 10000) {
+    else if (currentMillis - lastInteractionTime > 30000) {
         State = IDLE;
         lastInteractionTime = currentMillis;
     }

@@ -12,11 +12,3 @@ enum State {
     SAD = 31,
     GAMESTART = 90,
 };
-
-enum Control {
-    SELF = 0,
-    OA1 = 1,
-    OA2 = 2,
-    MOV = 3,
-    POW = 4,
-};

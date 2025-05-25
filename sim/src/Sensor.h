@@ -3,7 +3,7 @@ unsigned long lastSensorLoop;
 bool lastSensorState = LOW;
 bool tapped = false;
 
-bool sensorLoop(uint8_t* state, unsigned long currentMillis) {
+bool sensorLoop(uint8_t* state, unsigned long currentMillis, uint8_t* selectedActuator) {
     if (DEBUG && currentMillis % 1000 == 600) Serial.println("sensors");
     // TODO: should this only work if state is <= 19?
     if (currentMillis - lastSensorLoop < 20) return false;
@@ -15,6 +15,7 @@ bool sensorLoop(uint8_t* state, unsigned long currentMillis) {
             *state = TWOTAP;
             tapped = false;
             Serial.println("CALL OA2");
+            *selectedActuator = 2;
         }
         else {
             *state = ONETAP;
@@ -25,6 +26,7 @@ bool sensorLoop(uint8_t* state, unsigned long currentMillis) {
     if (tapped && lastTap + 1000 < currentMillis) {
         tapped = false;
         Serial.println("CALL OA1");
+        *selectedActuator = 1;
     }
     lastSensorState = sensorState;
     lastSensorLoop = currentMillis;
