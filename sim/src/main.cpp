@@ -4,6 +4,7 @@
 #include <SoftwareSerial.h>
 #include <DFRobotDFPlayerMini.h>
 const bool DEBUG = true;
+#include <StateQueue.h>
 #include <State.h>
 Adafruit_NeoPixel eyes(128, 5, NEO_GRB + NEO_KHZ800);
 #include <Eyes.h>
@@ -26,7 +27,6 @@ void setup() {
     Serial.begin(9600);
     pinMode(2, INPUT);
     eyes.begin();
-    //eyes.setBrightness(25);
     draw(CLOSED);
     eyes.show();
     lSer.attach(9);
@@ -52,8 +52,8 @@ void loop() {
         Serial.println(State);
     }
 
-    //TODO: take message when person found and look suddenly at them
     if (Serial.available() > 0) {
+        stateQueue.clear();
         String command = Serial.readStringUntil('\n');
         if (DEBUG) {
             Serial.print("Command: ");
@@ -62,12 +62,21 @@ void loop() {
         if (command.startsWith("FOUND")) {
             State = CURIOUS;
         }
-        else if (command == "WIN")
-            State = LOVE;
-        else if (command == "LOSE")
-            State = random(0, 2) == 0 ? SAD : ANGRY;
-        else if (command == "TIE")
-            State = HAPPY;
+        else if (command == "WIN" && (SelectedActuator == 1 || SelectedActuator == 2)) {
+            if (SelectedActuator == 1) State = OA1WIN;
+            else if (SelectedActuator == 2) State = OA2WIN;
+            scheduleState(LOVE, 5000);
+        }
+        else if (command == "LOSE" && (SelectedActuator == 1 || SelectedActuator == 2)) {
+            if (SelectedActuator == 1) State = OA1LOSE;
+            else if (SelectedActuator == 2) State = OA2LOSE;
+            scheduleState(random(0, 2) == 0 ? SAD : ANGRY, 5000);
+        }
+        else if (command == "TIE" && (SelectedActuator == 1 || SelectedActuator == 2)) {
+            if (SelectedActuator == 1) State = OA1TIE;
+            else if (SelectedActuator == 2) State = OA2TIE;
+            scheduleState(HAPPY, 5000);
+        }
         else if (command.startsWith("OA2")) {
             int toPlay = command.substring(3).toInt() + 30;
             if (DEBUG) {
@@ -84,18 +93,23 @@ void loop() {
     }
 
     if (sensorLoop(&State, currentMillis, &SelectedActuator)) {
-        lastInteractionTime = currentMillis;
+        if (State == GAMESTART) lastInteractionTime = currentMillis;
     }
     eyeLoop(State, currentMillis, S);
     servoLoop(State, currentMillis, S);
     if (audioConnected) audioLoop(State, currentMillis);
 
-    if (State == GAMESTART && currentMillis - lastInteractionTime > 6000) {
-        State = HAPPY;
+    while (stateQueue.count() > 0 && currentMillis >= stateQueue.peek().time) {
+        State = stateQueue.pop().state;
         lastInteractionTime = currentMillis;
+        if (DEBUG) {
+            Serial.print("Transitioned to scheduled state: ");
+            Serial.println(State);
+        }
     }
-    else if (currentMillis - lastInteractionTime > 30000) {
+    if (currentMillis - lastInteractionTime > 30000) {
         State = IDLE;
         lastInteractionTime = currentMillis;
+        // TODO: tell movement module
     }
 }

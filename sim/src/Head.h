@@ -64,7 +64,7 @@ void servoLoop(uint8_t state, unsigned long currentMillis, unsigned int speed) {
                 break;
             case HAPPY:
                 if (moveHead(even ? 3 : 0, 0, even ? 0 : 3, 8)) chill = iter++ || true;
-                rotateNeck(even ? -2 : 2, 3);
+                rotateNeck(even ? -2 : 2, 4);
                 sIV = 8;
                 break;
             case SILLY:

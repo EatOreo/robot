@@ -43,6 +43,9 @@ void audioLoop(uint8_t state, unsigned long currentMillis) {
             case CURIOUS:
                 toPlay = 10;
                 break;
+            case OA1START:
+                toPlay = 20;
+                break;
             default:
                 break;
         }

@@ -125,8 +125,6 @@ void eyeLoop(uint8_t state, unsigned long currentMillis, unsigned int speed) {
 
 		eyes.clear();
 
-		// TODO: blink like this: https://www.youtube.com/watch?v=bGIOFGOlB68
-		// more inspiration: https://www.adrirobot.it/occhi-per-robot-con-matrice-8x8-max7219/
 		if (blinkFrame >= 0 && blinkFrame < 5) {
 			draw(BLINK[blinkFrame]);
 			eIV = (blinkFrame == 3) ? 20 : 7;
@@ -192,6 +190,16 @@ void eyeLoop(uint8_t state, unsigned long currentMillis, unsigned int speed) {
 			case GAMESTART:
 				drawLetsGo(frame);
 				eIV = 8;
+				break;
+			case OA1START:
+				draw(SMILE);
+				eIV = 100;
+				blinkWithProb(10);
+				break;
+			case OA2START:
+				draw(SMILE);
+				eIV = 100;
+				blinkWithProb(10);
 				break;
 			default:
 				draw(CLOSED);
