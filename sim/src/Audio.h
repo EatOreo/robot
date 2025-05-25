@@ -35,7 +35,7 @@ void audioLoop(uint8_t state, unsigned long currentMillis) {
                 toPlay = 5;
                 break;
             case SAD:
-                toPlay = 6;
+                toPlay = random(0, 3) == 0 ? 11 : 6;
                 break;
             case GAMESTART:
                 toPlay = 7;
@@ -45,6 +45,21 @@ void audioLoop(uint8_t state, unsigned long currentMillis) {
                 break;
             case OA1START:
                 toPlay = 20;
+                break;
+            case OA2START:
+                toPlay = 30;
+                break;
+            case OA1WIN:
+            case OA2WIN:
+                toPlay = random(0, 2) == 0 ? 23 : 24;
+                break;
+            case OA1LOSE:
+            case OA2LOSE:
+                toPlay = random(0, 2) == 0 ? 21 : 22;
+                break;
+            case OA1TIE:
+            case OA2TIE:
+                toPlay = 25;
                 break;
             default:
                 break;

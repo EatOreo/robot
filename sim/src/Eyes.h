@@ -148,16 +148,22 @@ void eyeLoop(uint8_t state, unsigned long currentMillis, unsigned int speed) {
 				blinkWithProb(10);
 				break;
 			case LOVE:
+			case OA1WIN:
+			case OA2WIN:
 				draw(HEART_OUT);
 				if (frame % 2 == 0) draw(HEART_IN, false, 0xff69b4);
 				eIV = frame % 2 == 0 ? 30 : 10;
 				break;
 			case HAPPY:
+			case OA1START:
+			case OA2START:
 				draw(SMILE);
 				eIV = 100;
 				blinkWithProb(10);
 				break;
 			case SILLY:
+			case OA1TIE:
+			case OA2TIE:
 				draw(CIRCLE[frame % 8], true);
 				eIV = 10;
 				break;
@@ -167,6 +173,8 @@ void eyeLoop(uint8_t state, unsigned long currentMillis, unsigned int speed) {
 				eIV = 100;
 				break;
 			case SAD:
+			case OA1LOSE:
+			case OA2LOSE:
 				draw(CRY);
 				draw(TEARS[frame % 8], true, 0x0088ff);
 				eIV = 20;
@@ -190,16 +198,6 @@ void eyeLoop(uint8_t state, unsigned long currentMillis, unsigned int speed) {
 			case GAMESTART:
 				drawLetsGo(frame);
 				eIV = 8;
-				break;
-			case OA1START:
-				draw(SMILE);
-				eIV = 100;
-				blinkWithProb(10);
-				break;
-			case OA2START:
-				draw(SMILE);
-				eIV = 100;
-				blinkWithProb(10);
 				break;
 			default:
 				draw(CLOSED);

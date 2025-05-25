@@ -110,6 +110,7 @@ void loop() {
     if (currentMillis - lastInteractionTime > 30000) {
         State = IDLE;
         lastInteractionTime = currentMillis;
+        SelectedActuator = 0;
         // TODO: tell movement module
     }
 }

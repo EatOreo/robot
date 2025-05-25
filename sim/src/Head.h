@@ -71,7 +71,7 @@ void servoLoop(uint8_t state, unsigned long currentMillis, unsigned int speed) {
                 if (moveHead((iter % 3 == 0) ? 3 : 0,
                     ((iter + 1) % 3 == 0) ? 3 : 0,
                     ((iter + 2) % 3 == 0) ? 3 : 0, 4)) chill = iter++ || true;
-                rotateNeck(even ? -2 : 2, 3);
+                rotateNeck(even ? -2 : 2, 4);
                 sIV = 8;
                 break;
             case ANGRY:
@@ -87,15 +87,13 @@ void servoLoop(uint8_t state, unsigned long currentMillis, unsigned int speed) {
                 sIV = 8;
                 break;
             case SLEEP:
-                resetHead(true);
-                sIV = 50;
-                break;
             case IDLE:
                 resetHead(true);
                 sIV = 50;
                 break;
             default:
-                resetHead(true);
+                moveHead(0, 2, 0);
+                rotateNeck(0);
                 sIV = 50;
                 break;
         }
