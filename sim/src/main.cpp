@@ -9,7 +9,7 @@ const bool DEBUG = true;
 Adafruit_NeoPixel eyes(128, 5, NEO_GRB + NEO_KHZ800);
 #include <Eyes.h>
 Servo lSer;
-Servo fSer;
+Servo bSer;
 Servo rSer;
 Servo neckSer;
 #include <Head.h>
@@ -30,7 +30,7 @@ void setup() {
     draw(CLOSED);
     eyes.show();
     lSer.attach(9);
-    fSer.attach(10);
+    bSer.attach(10);
     rSer.attach(11);
     neckSer.attach(3);
     resetHead();

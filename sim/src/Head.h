@@ -21,7 +21,7 @@ void resetNeck() {
 }
 void resetHead(bool alsoResetNeck = true) {
     write(lSer, 0);
-    write(fSer, 0);
+    write(bSer, 0);
     write(rSer, 0);
     if (alsoResetNeck) resetNeck();
 }
@@ -30,7 +30,7 @@ bool rotateNeck(int pos, unsigned int step = 2) {
 }
 bool moveHead(unsigned int l, unsigned int f, unsigned int r, unsigned int step = 2) {
     bool leftReached = approach(lSer, min(l, 10) * ANGLE_MULTIPLIER, step);
-    bool frontReached = approach(fSer, min(f, 10) * ANGLE_MULTIPLIER, step);
+    bool frontReached = approach(bSer, min(f, 10) * ANGLE_MULTIPLIER, step);
     bool rightReached = approach(rSer, min(r, 10) * ANGLE_MULTIPLIER, step);
     return leftReached && frontReached && rightReached;
 }
