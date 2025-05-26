@@ -8,8 +8,7 @@ bool sensorLoop(uint8_t* state, unsigned long currentMillis, uint8_t* selectedAc
     if (*state >= 50 || currentMillis - lastSensorLoop < 20) return false;
     if ((*state == ONETAP || *state == TWOTAP) && currentMillis - lastTap > 1000) {
         *state = GAMESTART;
-        scheduleState(*selectedActuator == 1 ? OA1START : OA2START, 5000);
-        scheduleState(HAPPY, 12000);
+        
     }
     bool sensorState = digitalRead(2);
     if (*state != TWOTAP && sensorState == HIGH && lastSensorState == LOW) {
@@ -18,6 +17,8 @@ bool sensorLoop(uint8_t* state, unsigned long currentMillis, uint8_t* selectedAc
             *state = TWOTAP;
             tapped = false;
             Serial.println("CALL OA2");
+            scheduleState(OA2START, 5000);
+            scheduleState(HAPPY, 12000);
             *selectedActuator = 2;
         }
         else {
@@ -29,6 +30,8 @@ bool sensorLoop(uint8_t* state, unsigned long currentMillis, uint8_t* selectedAc
     if (tapped && lastTap + 1000 < currentMillis) {
         tapped = false;
         Serial.println("CALL OA1");
+        scheduleState(OA1START, 5000);
+        scheduleState(HAPPY, 12000);
         *selectedActuator = 1;
     }
     lastSensorState = sensorState;

@@ -89,7 +89,7 @@ void loop() {
         else if (command == "TIE" && (SelectedActuator == 1 || SelectedActuator == 2)) {
             if (SelectedActuator == 1) State = OA1TIE;
             else if (SelectedActuator == 2) State = OA2TIE;
-            scheduleState(HAPPY, 5000);
+            scheduleState(SILLY, 8000);
         }
         else if (command.startsWith("OA2")) {
             int toPlay = command.substring(3).toInt() + 30;
