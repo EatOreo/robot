@@ -8,7 +8,7 @@ bool sensorLoop(uint8_t* state, unsigned long currentMillis, uint8_t* selectedAc
     if (*state >= 50 || currentMillis - lastSensorLoop < 20) return false;
     if ((*state == ONETAP || *state == TWOTAP) && currentMillis - lastTap > 1000) {
         *state = GAMESTART;
-        scheduleState(OA1START, 5000);
+        scheduleState(*selectedActuator == 1 ? OA1START : OA2START, 5000);
         scheduleState(HAPPY, 12000);
     }
     bool sensorState = digitalRead(2);
