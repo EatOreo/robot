@@ -3,7 +3,7 @@
 #include <Servo.h>
 #include <SoftwareSerial.h>
 #include <DFRobotDFPlayerMini.h>
-const bool DEBUG = true;
+const bool DEBUG = false;
 #include <StateQueue.h>
 #include <State.h>
 Adafruit_NeoPixel eyes(128, 5, NEO_GRB + NEO_KHZ800);
