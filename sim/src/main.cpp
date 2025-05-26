@@ -60,6 +60,20 @@ void loop() {
             Serial.println(command);
         }
         if (command.startsWith("FOUND")) {
+            int firstSpace = command.indexOf(' ');
+            int secondSpace = command.indexOf(' ', firstSpace + 1);
+            int people = 0, angle = 0;
+            if (firstSpace != -1 && secondSpace != -1) {
+                people = command.substring(firstSpace + 1, secondSpace).toInt();
+                angle = command.substring(secondSpace + 1).toInt();
+                neckSer.write(angle);
+            }
+            if (DEBUG) {
+                Serial.print("FOUND people: ");
+                Serial.print(people);
+                Serial.print(", angle: ");
+                Serial.println(angle);
+            }
             State = CURIOUS;
         }
         else if (command == "WIN" && (SelectedActuator == 1 || SelectedActuator == 2)) {
@@ -111,6 +125,6 @@ void loop() {
         State = IDLE;
         lastInteractionTime = currentMillis;
         SelectedActuator = 0;
-        // TODO: tell movement module
+        Serial.println(F("START MOVE"));
     }
 }
