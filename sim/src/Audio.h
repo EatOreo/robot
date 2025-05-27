@@ -61,6 +61,9 @@ void audioLoop(uint8_t state, unsigned long currentMillis) {
             case OA2TIE:
                 toPlay = 25;
                 break;
+            case INVALID:
+                toPlay = 33;
+                break;
             default:
                 break;
         }

@@ -11,6 +11,7 @@ enum State {
     ANGRY = 30,
     SAD = 31,
     GAMESTART = 50,
+    INVALID = 51,
     OA1START = 60,
     OA1WIN = 61,
     OA1LOSE = 62,

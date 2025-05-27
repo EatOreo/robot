@@ -164,6 +164,7 @@ void eyeLoop(uint8_t state, unsigned long currentMillis, unsigned int speed) {
 			case SILLY:
 			case OA1TIE:
 			case OA2TIE:
+			case INVALID:
 				draw(CIRCLE[frame % 8], true);
 				eIV = 10;
 				break;
