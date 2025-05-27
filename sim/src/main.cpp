@@ -1,4 +1,5 @@
 #include <Arduino.h>
+#include <avr/wdt.h>
 #include <Adafruit_NeoPixel.h>
 #include <Servo.h>
 #include <SoftwareSerial.h>
@@ -39,6 +40,7 @@ void setup() {
     if (!connectAudio()) State = ERROR;
 
     Serial.println(F("READY"));
+    wdt_enable(WDTO_2S);
 }
 
 unsigned long lastInteractionTime = 0;
@@ -127,4 +129,5 @@ void loop() {
         SelectedActuator = 0;
         Serial.println(F("START MOVE"));
     }
+    wdt_reset();
 }
