@@ -93,6 +93,10 @@ void loop() {
             else if (SelectedActuator == 2) State = OA2TIE;
             scheduleState(SILLY, 8000);
         }
+        else if (command == "INVALID" && (SelectedActuator == 1 || SelectedActuator == 2)) {
+            State = INVALID;
+            scheduleState(SILLY, 8000);
+        }
         else if (command.startsWith("OA2")) {
             int toPlay = command.substring(3).toInt() + 30;
             if (DEBUG) {

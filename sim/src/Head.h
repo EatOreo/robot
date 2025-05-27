@@ -17,7 +17,7 @@ bool approach(Servo servo, unsigned int goal, unsigned int step = 2) {
     return current == goal;
 }
 void resetNeck() {
-    neckSer.write(110);
+    neckSer.write(90);
 }
 void resetHead(bool alsoResetNeck = true) {
     write(lSer, 0);
@@ -26,7 +26,7 @@ void resetHead(bool alsoResetNeck = true) {
     if (alsoResetNeck) resetNeck();
 }
 bool rotateNeck(int pos, unsigned int step = 2) {
-    return approach(neckSer, map(-pos, -10, 10, 30, 150) + 20, step / 2);
+    return approach(neckSer, map(-pos, -10, 10, 30, 150), step / 2);
 }
 bool moveHead(unsigned int l, unsigned int f, unsigned int r, unsigned int step = 2) {
     bool leftReached = approach(lSer, min(l, 10) * ANGLE_MULTIPLIER, step);
